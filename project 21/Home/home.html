@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Airline Reservation System </title>
+    <link rel="stylesheet" href="home.css">
+    <script src="https://kit.fontawesome.com/9b207dd34b.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="logo">
+        B Airline <i class="fa-solid fa-plane"></i>
+        <nav>
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li ><a class="log" href="/project 21/Loging and Register/login.html">Login</a></li>
+            </ul>
+        </nav>
+        <i class="fa-solid fa-bars"></i>
+    </div>
+
+    <div class="form-box">
+        <h1> Check Your Flights </h1>
+        <div class="button-box">
+           <div id="btn"></div>
+           <button type="button" class="toggle-btn" onclick="roundTrip()"><b>Round Trip</b></button>
+           <button type="button" class="toggle-btn" onclick="oneway()"><b>One Way</b></button>
+        </div> 
+        
+       <form id="roundTrip" class="input-group">
+            <label for="From">From:</label>
+            <select id="From" name="From" class="input-field">
+                <option value="">Choice Place</option>
+                <option value="Dhaka">Dhaka</option>
+                <option value="SL">Sri Lanaka</option>
+                <option value="IND">India</option>
+                <option value="CHI">Chaina</option>
+                <option value="AFF">Africa</option>
+            </select><br>
+            <label for="To">To:</label>
+            <select id="To" name="To" class="input-field">
+                <option value="">Choice Place</option>
+                <option value="Dhaka">Dhaka</option>
+                <option value="SL">Sri Lanaka</option>
+                <option value="IND">India</option>
+                <option value="CHI">Chaina</option>
+                <option value="AFF">Africa</option>
+            </select><br>
+            <label for="Departure">Departure:</label>
+            <input type="date" class="input-field" placeholder="Departure" required>
+            <label for="Return">Return:</label>
+            <input type="date" class="input-field" placeholder="Return" required>
+            <label for="Passenger">Passenger:</label>
+            <input type="number" class="input-field" placeholder="Number of Passengers" required>
+            <button type="submit" class="submit-btn"><b>Search</b></button>
+       </form>
+
+       <form id="oneway" class="input-group">
+        <label for="From">From:</label>
+        <select id="From" name="From" class="input-field">
+            <option value="">Choice Place</option>
+            <option value="Dhaka">Dhaka</option>
+            <option value="SL">Sri Lanaka</option>
+            <option value="IND">India</option>
+            <option value="CHI">Chaina</option>
+            <option value="AFF">Africa</option>
+        </select><br>
+        <label for="To">To:</label>
+        <select id="To" name="To" class="input-field">
+            <option value="">Choice Place</option>
+            <option value="Dhaka">Dhaka</option>
+            <option value="SL">Sri Lanaka</option>
+            <option value="IND">India</option>
+            <option value="CHI">Chaina</option>
+            <option value="AFF">Africa</option>
+        </select><br>
+        <label for="Departure">Departure:</label>
+        <input type="date" class="input-field" placeholder="Departure" required>
+        <label for="Passenger">Passenger:</label>
+        <input type="number" class="input-field" placeholder="Number of Passengers" required>
+        <button type="submit" class="submit-btn"><b>Search</b></button>
+       </form>
+
+</div>
+<script>
+   var x= document.getElementById("roundTrip");
+   var y= document.getElementById("oneway");
+   var z= document.getElementById("btn");
+
+   function oneway(){
+       x.style.left="-400px";
+       y.style.left="50px";
+       z.style.left="120px";
+   }
+   function roundTrip(){
+       x.style.left="50px";
+       y.style.left="450px";
+       z.style.left="0px";
+   }
+</script>
+<script>
+    let menuicon = document.querySelector('.fa-bars');
+    var navigation =document.querySelector('nav');
+    var formBox=document.querySelector('.form-box');
+    menuicon.onclick = function(){
+        if(menuicon.classList.contains('fa-bars')){
+            menuicon.classList.remove('fa-bars');
+            menuicon.classList.add('fa-times');
+            navigation.className="expand";
+        }
+        else{
+            menuicon.classList.remove('fa-times');
+            menuicon.classList.add('fa-bars');
+            navigation.className="";
+        }
+    }
+</script>
+
+</body>
+</html>
