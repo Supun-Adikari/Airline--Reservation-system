@@ -1,20 +1,21 @@
-import mysql from 'mysql2'
-import dotenv from 'dotenv'
 
+var mysql = require('mysql2');
+const dotenv = require('dotenv');
 dotenv.config();
 
+
 const dbSettings = {
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE,
+    host: process.env.MYSQL_HOST,
+    user: process.env.MYSQL_USER,
+    password: process.env.MYSQL_PASSWORD,
+    database: process.env.MYSQL_DATABASE,
 }
 
-var pool = mysql.createConnection(dbSettings);
+var pool = mysql.createPool(dbSettings);
 
 function executeSQL(sql,placeholder){
     return new Promise((res,rej)=>{
-        pool.getConnection(function(err, connection) {
+        pool.getConnection((err, connection) => {
             if (err) throw err; // not connected!
            
             // Use the connection
@@ -35,4 +36,5 @@ function executeSQL(sql,placeholder){
     });
 }
 
-exports.executeSQL = executeSQL;
+// exports.executeSQL = executeSQL;
+module.exports = {executeSQL};

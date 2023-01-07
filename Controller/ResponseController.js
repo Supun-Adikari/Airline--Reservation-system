@@ -8,4 +8,4 @@ function ResponseHandler(status){
     }
 }
 
-module.exports =  {ResponseHandler};
+exports.ResponseHandler =  {ResponseHandler};

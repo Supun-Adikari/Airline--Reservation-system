@@ -1,40 +1,36 @@
 const express = require('express')
+var apiController = require("./API/API");
+var authController = require("./API/Auth");
+var {RestoreSession} = require("./MODEL/Authentication");
 const app = express()
+
+const dotenv = require('dotenv');
+dotenv.config();
+
+app.use(express.urlencoded({extended: true}));
+app.use(express.json())
+
+RestoreSession();
+
+
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "http://localhost:3000"); 
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+    res.header("Access-Control-Allow-Methods", "DELETE, PUT");
+    next();
+});
+
+app.use('/', apiController)
+
+app.use('/api',apiController);
+app.use('/auth',authController);
+
+
+//Set up EJS//udj
 app.set('view engine', 'ejs')
-
-app.get('/',(req,res)=>{
-    res.render('home.ejs')
-})
-
-
-app.get('/home',(req,res)=>{
-    res.render('home.ejs')
-})
-
-app.get('/login',(req,res)=>{
-    res.render('login.ejs')
-})
-
-app.get('/feedback',(req,res)=>{
-    res.render('feedback.ejs')
-})
-
-app.get('/book',(req,res)=>{
-    res.render('book.ejs')
-})
-
-
-app.get('/admin',(req,res)=>{
-    res.render('admin.ejs')
-})
-
-app.get('/adminLogin',(req,res)=>{
-    res.render('adminLogin.ejs')
-})
-
 app.use(express.static('public'))
 
-const port = 8000
+const port = process.env.port 
 app.listen(port, () => {
   console.log(`Example app listening on port http://localhost:${port}`)
 })
