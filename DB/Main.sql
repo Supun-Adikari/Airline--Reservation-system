@@ -87,8 +87,9 @@ create table registered_users(
 	Registered_date DATETIME DEFAULT CURRENT_TIMESTAMP, -- YYYY-MM-DD HH:MM:SS
 	PID int,
 	UserName varchar(30) NOT NULL unique,
-	Password varchar(30) NOT NULL,
-	Date_of_Birth Date NOT NULL, -- YYYY-MM-DD
+	Password varchar(300) NOT NULL,
+	-- Date_of_Birth Date NOT NULL, -- YYYY-MM-DD
+    Age varchar(30) NOT NULL,
 	Address varchar(50),
     user_category char(1) NOT NULL DEFAULT 'N',
 	Total_Bookings int NOT NULL default 0,
@@ -224,7 +225,7 @@ DECLARE price int DEFAULT 0;
 DECLARE discount int DEFAULT 0;
 DECLARE user_categories char(1);
 Set Price = (Select Price_per_air_mile from class_types WHERE Class = C)*(SELECT Miles FROM routes WHERE Route_ID = Route);
-if (Select User_type from users where PID = PID LIMIT 1) == 'R' then
+if (Select User_type from users where PID = PID LIMIT 1) <=> 'R' then
 	set user_categories = (Select User_category from Registered_Users where PID = PID);
 	set discount = (select discount from user_categories where User = user_categories);
 end if;
@@ -334,7 +335,7 @@ Select * from Locations;
 select * from AirPlane_Models;
 select * from routes order by Route_ID;
 
-select route_ID From routes Where Origin_ID = Origin AND Destination_ID = destination;
+select route_ID From routes Where Origin_ID = 'Origin' AND Destination_ID = 'destination';
 
 Create view Airplanes_w_seasts as
 SELECT Airplane_ID, (seat_count_First_Class+seat_count_Economy_Class+seat_count_Buisness_Class) as seat_count
@@ -349,4 +350,6 @@ WHERE route In (select route_ID
                 
 select * from Airplanes_w_seasts;
 Drop view Airplanes_w_seasts;
+
+insert into user_categories(User, Discription, Discount, Threashold) values ('F', 'Frequent', 0.05, 10),('G', 'Gold', 0.09, 50), ('N', 'New', 0.00, 0);
 
