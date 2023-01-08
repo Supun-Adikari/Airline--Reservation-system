@@ -40,19 +40,6 @@ class RegUser{
     }
     
     
-
-    async getAstrObj(id){
-
-        var astrObj = new spaceOBJ();
-        const status = await astrObj.setDataByDB(id);
-
-        if (status != "Error"){
-            return(astrObj);
-        }else{
-            return("Error");
-        }
-    }
-
     async setLastUsedTime(){
 
         this.lastUsedTime = Number(new Date().getTime());

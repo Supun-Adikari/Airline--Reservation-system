@@ -79,7 +79,7 @@ async function login(method){
 
                 await executeSQL('UPDATE Session_table SET session_id = ?, Last_used_time=? WHERE User_Id= ?',[user.sessionID,Number(new Date().getTime()),user.PID]);
                 
-                console.log("User Already Exists, logging out previous users");
+                console.log("Logging out previous users");
 
             }else{
 
@@ -135,7 +135,7 @@ async function logout(user){
 
 
 const getAccessToken = (data)=>{
-    token = sign(data, ACCESS_TOKEN_SECRECT,{algorithm: "HS256",expiresIn:"500m"});
+    token = sign(data, ACCESS_TOKEN_SECRECT,{algorithm: "RS256",expiresIn:"180m"});
     console.log(token);
     return token;
 };
@@ -171,7 +171,6 @@ var UpdateSession =async function(req,res, next){
     var method = new Method(req,res);
 
     var token = method.getToken();
-    console.log(token);
     
     console.log(token);
     try{
