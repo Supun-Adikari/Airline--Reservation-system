@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Airplane Online Ticket Booking System Admin Panel</title>
+  <link rel="stylesheet" href="/Admin/stylse.css">
+</head>
+<style>
+  .c{
+    background-color: rgba(0, 0, 0, 0.21);
+    border: 1px solid #000;
+    width: 1400px;
+    position: relative;
+    margin: 2% auto;
+    PAdding: 2% 2% 2% 2%;
+
+  }
+</style>
+<body>
+  <h1 class="head">Airplane Online Ticket Booking System Admin Panel</h1>
+  <!-- navigation -->
+  <div class="wrapper">
+    <nav>
+        <ul>
+            <li><a href="/Admin/AdminHome.html"class="page">Home</a></li>
+            <li><a href="/Admin/Passengers.html">Passengers</a></li>
+            <li ><a href="/Admin/flights.html" >flights</a></li>
+            <style>
+              .page{
+                color: #fff;
+                background-color: #000;
+              padding: 10px;
+              margin: 0% 0% 0% 0%;
+              }
+            </style>
+            <li><a href="/Loging and Register/login.html">log out</a></li>
+            <!-- <li><a href="#"></a></li> -->
+        </ul>
+    </nav>
+</div>
+<div class="c">
+  <!-- Passenger search form -->
+  <h2><i>Search for Passengers</i></h2>
+  <form id="search-passengers-form">
+    <label for="customer-id">Customer ID:</label><br>
+    <input type="text" id="customer-id" name="customer-id" placeholder="200012312V"><br><br>
+    <input class="btn" type="submit" value="Search"><br>
+  </form> 
+
+  <!-- flight details -->
+  <h2 ><u>View All Bookings of searched Flight</u></h2><br>
+  <table id="flight-table">
+    <tr>
+      <th>Flight Number</th>
+      <th>Departure City</th>
+      <th>Arrival City</th>
+      <th>date</th>
+      <th>Departure Time</th>
+      <th>Arrival Time</th>
+        <th>Actions</th>
+    </tr>
+    <!-- Add rows for each booking here -->
+    <tr>
+      <td>AA123</td>
+      <td>Colombo</td>
+        <td>London</td>
+      <td>2022-01-01</td>
+      <td>04:00</td>
+        <td>06:00</td>
+      <td>
+        <button class="edit-button">Edit</button>
+        <button class="delete-button">Delete</button>
+      </td>
+    </tr>
+  </table><br>
+</div>
+<div class="c">
+    <!-- Flights search form -->
+    <h2><i>Search for Flights</i></h2>
+    <form id="search-flights-form">
+      <label for="flight-id">Flight ID:</label><br>
+      <input type="text" id="flight-id" name="flight-id" placeholder="ABC123"><br><br>
+      <input class="btn" type="submit" value="Search">
+    </form><br>
+  
+    <h2><u>View All Bookings of searched Flight</u></h2><br>
+    <table id="bookings-table">
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Date</th>
+        <th>Flight</th>
+        <th>Actions</th>
+      </tr>
+      <!-- Add rows for each booking here -->
+      <tr>
+        <td>John Smith</td>
+        <td>john@example.com</td>
+        <td>2022-01-01</td>
+        <td>ABC123</td>
+        <td>
+          <button class="edit-button">Edit</button>
+          <button class="delete-button">Delete</button>
+        </td>
+      </tr>
+    </table><br>
+  </div>
+  <div class="c">
+    <h1><u>Add New Flight</u></h1>
+    <form id="add-flight-form">
+      <label for="flight-number">Flight Number:</label><br>
+      <input type="text" id="flight-number" name="flight-number" placeholder="ABC123"><br>
+      <label for="departure-city">Departure City:</label><br>
+      <input type="text" id="departure-city" name="departure-city" placeholder="City A"><br>
+      <label for="arrival-city">Arrival City:</label><br>
+      <input type="text" id="arrival-city" name="arrival-city" placeholder="City B"><br>
+      <label for="departure-time">Departure Time:</label><br>
+      <input type="text" id="departure-time" name="departure-time"><br>
+      <label for="arrival-time">Arrival Time:</label><br>
+      <input type="text" id="arrival-time" name="arrival-time"><br><br>
+      <input class="btn" type="submit" value="Add Flight">
+    </form> 
+  </div>
+</body>
+</html>
+     

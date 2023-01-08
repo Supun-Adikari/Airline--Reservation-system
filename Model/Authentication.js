@@ -1,6 +1,6 @@
 const {hash,compare} = require("bcryptjs");
-const {executeSQL} = require("../Database/database");
 const {sign, verify} = require("jsonwebtoken");
+const {executeSQL} = require("../Database/database");
 const Method = require("../Controller/method");
 const {RegUser} = require("./User");
 const { parse } = require('querystring');
@@ -27,7 +27,7 @@ async function register(method){
     const Country = body.country;
 
     try{
-        const data = await executeSQL('SELECT UserName FROM registered_users WHERE UserName = ?',[UserName]);
+        const data = await executeSQL('SELECT userName FROM registered_users WHERE userName = ?',[UserName]);
         
         if(data[0]){
 
@@ -36,7 +36,7 @@ async function register(method){
         }else{
             
             const hashedPassword = await hash(Password,10);
-            await executeSQL('INSERT INTO users SET ?',{Title:Title,First_Name:First_Name,Last_Name:Last_Name,Email:Email,Telephone:Telephone,Country:Country});
+            await executeSQL('INSERT INTO users SET ?',{title:Title,f_Name:First_Name,l_Name:Last_Name,Email:Email,Country:Country});
             const PID = await executeSQL('SELECT PID FROM users WHERE Email = ?',[Email]);
             await executeSQL('INSERT INTO registered_users SET ?',{PID:PID[0].PID, UserName:UserName,Password:hashedPassword,Age:Age,Address:Address});
             

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Airplane Online Ticket Booking System Admin Panel</title>
+  <link rel="stylesheet" href="/Admin/stylse.css">
+</head>
+<body>
+  <h1 class="head">Airplane Online Ticket Booking System Admin Panel</h1>
+  <!-- navigation -->
+  <div class="wrapper">
+    <nav>
+        <ul>
+            <li><a href="/Admin/AdminHome.html">Home</a></li>
+            <li><a href="/Admin/Passengers.html" class="page">Passengers</a></li>
+            <li ><a href="/Admin/flights.html" >flights</a></li>
+            <style>
+              .page{
+                color: #fff;
+                background-color: #000;
+              padding: 10px;
+              margin: 0% 0% 0% 0%;
+              }
+            </style>
+            <li><a href="/Loging and Register/login.html">log out</a></li>
+            <!-- <li><a href="#"></a></li> -->
+        </ul>
+    </nav>
+</div>  
+  <div class="c">
+  <!-- View all bookings table -->
+  <h1><u>View All Booking Passengers</u></h1><br>
+  <table id="bookings-table">
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Date</th>
+      <th>Flight</th>
+      <th>Actions</th>
+    </tr>
+    <!-- Add rows for each booking here -->
+    <tr>
+      <td>John Smith</td>
+      <td>john@example.com</td>
+      <td>2022-01-01</td>
+      <td>ABC123</td>
+      <td>
+        <button class="edit-button">Edit</button>
+        <button class="delete-button">Delete</button>
+      </td>
+    </tr>
+  </table></div>
+  <script>
+    const currentURL = window.location.href;
+    console.log(currentURL); // outputs the URL of the current page
+  </script>
+</body>
+</html>
+     

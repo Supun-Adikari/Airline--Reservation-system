@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="user.css">
+    <script src="https://kit.fontawesome.com/9b207dd34b.js" crossorigin="anonymous"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div class="logo">
+        B Airline <i class="fa-solid fa-plane"></i>
+        <nav>
+            <ul>
+                <li><a href="/Home/home.html">Home</a></li>
+                <li><a href="/feedback/feedback.html">Feed Back</a></li>
+                <li><a href="/Booking/book.html">Book</a></li>
+                <li ><a class="log" href="/Home/home.html">Log out</a></li>
+            </ul>
+        </nav>
+        <i class="fa-solid fa-bars"></i>
+    </div>
+    <div class="wrap">
+    <div class="profile-card">
+      <div class="image">
+        <img src="/USER/male-profile-picture-vector-2051141.jpg" alt="" class="profile-img" />
+      </div>
+
+      <div class="text-data">
+        <span class="name">SANDARUTH SIRIWARDANA</span> <!-- ann any number -->
+        <span class="user-name">Sanda_123</span>
+      </div>
+      <div id="box" class="box"></div>
+      <style>
+       .box {
+        height: 50px;
+        width: 300px;
+        border-radius: 25%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 30px;
+        font-weight: bold;
+        color: white;
+        margin-top: 10PX;
+      }
+      .box:hover {
+        /* cursor: pointer; */
+        transform: scale(1.1);
+      }
+      </style>
+      <div class="buttons">
+        <a href=" add all tikets page "><button class="button">Booked</button></a>
+        <a href="/Booking/book.html"> <button class="button">Booking</button></a>
+      </div>
+    </div></div>
+  </body>
+  <script>
+    const color = 'blue'; //GIVE THIS POINT TO ANY COLOR (BLUE,SILVER, GOLD)
+    const word = 'WELCOME'; //GIVE THIS POINT TO ANY WORD(NEW,GOLD OR FREQUENT)
+    const box = document.getElementById('box');
+    box.style.backgroundColor = color;
+    box.innerText = word;
+  </script>
+</html>
