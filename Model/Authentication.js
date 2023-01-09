@@ -15,7 +15,7 @@ async function register(method){
     //registered_users table
     const UserName = body.username;
     const Password = body.password;
-    const Age = body.age;
+    const DoB = body.DoB;
     const Address = body.address;
 
     //users table
@@ -23,22 +23,20 @@ async function register(method){
     const First_Name = body.fName;
     const Last_Name = body.lName;
     const Email = body.email;
-    const Telephone = body.tele;
     const Country = body.country;
 
     try{
-        const data = await executeSQL('SELECT userName FROM registered_users WHERE userName = ?',[UserName]);
+        const [data] = await executeSQL('SELECT userName FROM registered_users WHERE userName = ?',[UserName]);
         
-        if(data[0]){
+        if(data){
 
             return ("Error : Username already exists");
         
         }else{
             
-            const hashedPassword = await hash(Password,10);
-            await executeSQL('INSERT INTO users SET ?',{title:Title,f_Name:First_Name,l_Name:Last_Name,Email:Email,Country:Country});
-            const PID = await executeSQL('SELECT PID FROM users WHERE Email = ?',[Email]);
-            await executeSQL('INSERT INTO registered_users SET ?',{PID:PID[0].PID, UserName:UserName,Password:hashedPassword,Age:Age,Address:Address});
+            const hash_Password = await hash(Password,10);
+            values = [Title,First_Name,Last_Name,DoB,Email,Country,UserName,hash_Password,Address];
+            await executeSQL('CALL new_user_registered(?,?,?,?,?,?,?,?,?)',values)
             
             console.log(UserName + " successfuly added");
             return ("User added");
@@ -58,50 +56,51 @@ async function login(method){
 
     const username = body.username;
     const password = body.password;    
-    
     try{
-
-        const credential = await executeSQL('SELECT users.PID, UserName , Password, First_Name, Last_Name FROM users left join registered_users on users.PID = registered_users.PID WHERE registered_users.username =?',[username]);
-        console.log(credential[0].Password);
-        const status = await compare(password,credential[0].Password);
-        const PID = credential[0].PID;
-        const UserName = credential[0].UserName;
-        const fname = credential[0].First_Name;
-        const lname = credential[0].Last_Name;
+        const [validation] = await executeSQL('SELECT users.id, username , password_, f_Name, l_Name FROM users left join registered_users on users.id = registered_users.id WHERE registered_users.username =?',[username]);
+        // console.log(validation.Password);
+        console.log(validation);
+        const status = await compare(password,validation.password_);
+        const profile_ID = validation.id;
+        const UserName = validation.username;
+        const fname = validation.f_Name;
+        const lname = validation.l_Name;
         
         if (status){
 
-            var user = userFactory(PID,UserName,"Registered",fname,lname);
+            var user =createUser(profile_ID,UserName,"Registered",fname,lname);
+            console.log(user);
 
-            if (RegUsers.has(PID)){
+            if (RegUsers.has(profile_ID)){
 
                 RegUsers.delete(username);
 
-                await executeSQL('UPDATE Session_table SET session_id = ?, Last_used_time=? WHERE User_Id= ?',[user.sessionID,Number(new Date().getTime()),user.PID]);
+                await executeSQL('UPDATE sessions SET session_id = ?, end_time=? WHERE user_id= ?',[user.sessionID,Number(new Date().getTime()),user.profile_ID]);
                 
                 console.log("Logging out previous users");
 
             }else{
 
                 try{
-                    await executeSQL('INSERT INTO Session_table VALUES (?,?,?)',[user.sessionID,user.PID,Number(new Date().getTime())]);
+
+                    await executeSQL('INSERT INTO sessions VALUES (?,?,?)',[user.sessionID,user.profile_ID,Number(new Date().getTime())]);
                 }
                 catch(e){
                     console.log(e);
                     console.log("Error");
                 }
             }
-    
-            RegUsers.set(PID,user);
+            
+            RegUsers.set(profile_ID,user);
 
     
-            const token = getAccessToken({sessionID:user.sessionID,PID:user.PID});
+            const token = getAccessToken({sessionID:user.sessionID,profile_ID:user.profile_ID});
     
             //method.setToken(token,true,50000000);
 
-            console.log(username + " Successfully Logged In !!!");
+            console.log(username + " Logged In Successfully !!!");
 
-            return ({"token":token,"user":user});
+            return ({"token":token,"user":user,"status":true});
 
         }else{
             console.log(e)
@@ -119,10 +118,10 @@ async function login(method){
 
 async function logout(user){
 
-    RegUsers.delete(user.PID);
+    RegUsers.delete(user.profile_ID);
 
     try{
-        await executeSQL('DELETE FROM Session_table WHERE User_ID = ?',[user.PID]);
+        await executeSQL('DELETE FROM sessions WHERE User_ID = ?',[user.profile_ID]);
     }
     catch(e){
         console.log("database error");
@@ -135,7 +134,7 @@ async function logout(user){
 
 
 const getAccessToken = (data)=>{
-    token = sign(data, ACCESS_TOKEN_SECRECT,{algorithm: "RS256",expiresIn:"180m"});
+    token = sign(data, ACCESS_TOKEN_SECRECT,{algorithm: "HS256",expiresIn:"180m"});
     console.log(token);
     return token;
 };
@@ -148,10 +147,10 @@ var ExtractRegUser =async function(req,res, next){
     var token = method.getToken();
     console.log(token);
     try{
-        const {sessionID,PID} = verify(token,ACCESS_TOKEN_SECRECT);
+        const {sessionID,profile_ID} = verify(token,ACCESS_TOKEN_SECRECT);
         if(sessionID){
             
-            var user = RegUsers.get(PID);
+            var user = RegUsers.get(profile_ID);
             console.log(user);
             await user.setLastUsedTime();
             req.user = user;
@@ -174,10 +173,10 @@ var UpdateSession =async function(req,res, next){
     
     console.log(token);
     try{
-        const {sessionID,PID} = verify(token,ACCESS_TOKEN_SECRECT);
+        const {sessionID,profile_ID} = verify(token,ACCESS_TOKEN_SECRECT);
         if(sessionID){
             
-            var user = RegUsers.get(PID);
+            var user = RegUsers.get(profile_ID);
             console.log(user);
             await user.setLastUsedTime();
             req.user = user;
@@ -186,8 +185,7 @@ var UpdateSession =async function(req,res, next){
         next();
     }
     catch(err){
-        //console.log(err);
-        console.log("Invaild token or no token"); //when token expires
+        console.log("Invaild token or no token");
         next();
     }
 }
@@ -200,7 +198,7 @@ var RestoreSession = async function(){
     var data = null;
 
     try{
-        data = await executeSQL('SELECT * FROM (Session_table LEFT JOIN users on (Session_table.User_Id = users.PID)) LEFT JOIN registered_users on (Session_table.User_Id = registered_users.PID)');
+        [data] = await executeSQL('SELECT * FROM (sessions LEFT JOIN users on (sessions.User_Id = users.id)) LEFT JOIN registered_users on (sessions.User_Id = registered_users.id)');
     }catch(e){
         console.log(e);
         console.log("error");
@@ -212,8 +210,8 @@ var RestoreSession = async function(){
     }
     for (const [key, value] of data.entries()){
 
-        var user = userFactory(value.PID,value.UserName,"Registered",value.First_Name,value.Last_Name,value.Session_id,value.Last_used_time);
-        RegUsers.set(value.PID,user)
+        var user = createUser(value.profile_ID,value.UserName,"Registered",value.First_Name,value.Last_Name,value.Session_id,value.Last_used_time);
+        RegUsers.set(value.profile_ID,user)
     
     }
 
@@ -221,8 +219,8 @@ var RestoreSession = async function(){
 }
 
 
-function userFactory(pid,username,type,fname,lname,sessionID,lastUsedTime){
-    var user = new RegUser(pid,username,type,fname,lname,sessionID,lastUsedTime);
+function createUser(profile_ID,username,type,fname,lname,sessionID,lastUsedTime){
+    var user = new RegUser(profile_ID,username,type,fname,lname,sessionID,lastUsedTime);
     return(user)
 }
 
@@ -239,6 +237,10 @@ function ShowCurrentUsers(){
     }else{
         console.log(CurrUsers);
     }
+}
+
+function getCurrentUser(user){
+    return [user.UserName,user.fname,user.lname];
 }
 
 module.exports = {login,register,getAccessToken,ExtractRegUser,UpdateSession,RestoreSession,logout,ShowCurrentUsers};

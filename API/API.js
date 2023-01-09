@@ -17,20 +17,28 @@ const uController = new UserController();
 
 //udj
 router.get('/', function (req, res, next) {
-    res.render('home');
-});
+      res.render('home');
+    });
+    
 router.get('/home', function (req, res, next) {
-    res.render('home');
-});
+        res.render('home');
+    });
 
-//udj login GET request
-router.get('/login',async function(req, res){
-    res.render('login')
-});
-
+router.get('/login', function (req, res) {
+      res.render('login'); 
+  });
+  
+router.get('/book', function (req, res) {
+      res.render('book');
+  });
+  
+router.get('/feedback', function (req, res) {
+      res.render('feedback');
+  });
+  
 router.get('/getReservation',async function(req, res){
 
-    var method = new Method(req,res);
+    const method = new Method(req,res);
     
     const statusANDData = await uController.getReservation(method,req.user);
     console.log(statusANDData);
@@ -43,7 +51,7 @@ router.get('/getReservation',async function(req, res){
 // Request No: 01
 router.get('/getFlights',async function(req, res){
 
-    var method = new Method(req,res);
+    const method = new Method(req,res);
     
     const status = await uController.getFlights(method);
     console.log(status);
@@ -80,7 +88,7 @@ SQL Query: SQL query to Access DB */
 //Request No: 06
 router.get('/getRevenueByAircraftType',async function(req, res){
 
-    var method = new Method(req,res);
+    const method = new Method(req,res);
     
     const status = await uController.getRevenueByAircraftType(method);
     console.log(status);
@@ -94,7 +102,7 @@ router.get('/getRevenueByAircraftType',async function(req, res){
 // Request No: 09
 router.get('/AvailableSeats',async function(req, res){
 
-    var method = new Method(req,res);
+    const method = new Method(req,res);
     
     const status = await uController.getAvailableSeats(method,req.user);
     console.log(status);

@@ -119,7 +119,7 @@ CREATE TABLE reg_user_types (
 -- both guest and registered users data included  
 CREATE TABLE users(
     id int PRIMARY KEY AUTO_INCREMENT,
-	title VARCHAR(4),
+	title VARCHAR(5),
 	f_Name VARCHAR(30) NOT NULL,
     l_Name VARCHAR(30) NOT NULL,
 	DoB DATE NOT NULL, -- YYYY-MM-DD
@@ -166,9 +166,8 @@ CREATE TABLE tickets(
 
 
 CREATE TABLE sessions( 	
-	session_id INT AUTO_INCREMENT,
+	session_id VARCHAR(40),
 	user_id INT,
-	start_time DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	end_time DATETIME,
 
 	PRIMARY KEY(session_id, user_id),
@@ -199,7 +198,7 @@ DELIMITER ;
 
 -- PROCEDURES
 DELIMITER //
-CREATE PROCEDURE new_user_registered(title VARCHAR(4), f_name VARCHAR(30), l_name VARCHAR(30), DoB DATE, email VARCHAR(30), country VARCHAR(30), username VARCHAR(30), password_ VARCHAR(100), address_ VARCHAR(100))
+CREATE PROCEDURE new_user_registered(title VARCHAR(5), f_name VARCHAR(30), l_name VARCHAR(30), DoB DATE, email VARCHAR(30), country VARCHAR(30), username VARCHAR(30), password_ VARCHAR(100), address_ VARCHAR(100))
 BEGIN
 	DECLARE last_id INT DEFAULT 0;
 	START TRANSACTION;

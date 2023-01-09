@@ -38,4 +38,4 @@ class Method{
 
 
 
-exports.Method = Method;
+module.exports = Method;

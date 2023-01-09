@@ -19,7 +19,8 @@ function executeSQL(sql,placeholder){
             if (err) throw err; // not connected!
            
             // Use the connection
-            connection.query(sql,placeholder, async (error, results, fields)=> {
+            const formattedSQL = mysql.format(sql, placeholder);
+            connection.query(formattedSQL, async (error, results, fields)=> {
 
                 // When done with the connection, release it.
                 connection.release();
@@ -35,6 +36,29 @@ function executeSQL(sql,placeholder){
           });
     });
 }
+
+function executeSQL(sql, values) {
+    return new Promise((resolve, reject) => {
+      pool.getConnection((err, connection) => {
+        if (err) throw err;
+  
+        // Use the connection
+        const formattedSQL = mysql.format(sql, values);
+        connection.query(formattedSQL, (error, results, fields) => {
+          // When done with the connection, release it.
+          connection.release();
+  
+          // Handle error after the release.
+          if (error) {
+            reject({ error });
+          }
+          resolve(results);
+  
+          // Don't use the connection here, it has been returned to the pool.
+        });
+      });
+    });
+  }
 
 // exports.executeSQL = executeSQL;
 module.exports = {executeSQL};

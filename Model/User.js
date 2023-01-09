@@ -3,8 +3,8 @@ const {executeSQL} = require("../Database/database");
 const uniqid = require('uniqid');
 
 class RegUser{
-    constructor(PID,UserName,type,fname,lname,sessionID,lastUsedTime){
-        this.PID = PID;
+    constructor(profile_ID,UserName,type,fname,lname,sessionID,lastUsedTime){
+        this.profile_ID = profile_ID;
         this.UserName = UserName;
         this.userTP = type;
 
@@ -44,7 +44,7 @@ class RegUser{
 
         this.lastUsedTime = Number(new Date().getTime());
         try{
-            await executeSQL(`UPDATE Session_table SET Last_used_time= ? WHERE User_Id = ?`,[Number(this.lastUsedTime),this.PID]);
+            await executeSQL(`UPDATE Session_table SET Last_used_time= ? WHERE User_Id = ?`,[Number(this.lastUsedTime),this.profile_ID]);
         }catch(e){
             console.log("Error");
         }  
@@ -56,7 +56,7 @@ class RegUser{
 
         try{
             
-            credential = await executeSQL(`SELECT UserName,Password FROM registered_users WHERE PID = ?`,[this.PID]); 
+            credential = await executeSQL(`SELECT UserName,Password FROM registered_users WHERE id = ?`,[this.profile_ID]); 
             hashedPass = credential[0].password;
             success = await compare(CurrPassword,hashedPass); 
         }
@@ -68,7 +68,7 @@ class RegUser{
             try{
                 
                 const hashedPassword = await hash(NewPassword,10);
-                await executeSQL(`UPDATE registered_users SET Password = ? WHERE PID = ?`,[hashedPassword,this.PID]); 
+                await executeSQL(`UPDATE registered_users SET Password = ? WHERE id = ?`,[hashedPassword,this.profile_ID]); 
                     
                 return ("Password Changed");
                
@@ -91,7 +91,7 @@ class RegUser{
         }
     }
 
-    async getPastFlights(PID){
+    async getPastFlights(profile_ID){
         try{
             const sqlQuary = ``;
 
@@ -105,4 +105,4 @@ class RegUser{
     
 }
 
-exports.RegUser = {RegUser};
+module.exports = {RegUser};
