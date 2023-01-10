@@ -8,7 +8,7 @@
   font-family: "Poppins", sans-serif;
 }
 body{
-    background-image: url("Cost\ strategies\ 1.jpg");
+    background-image: url("/USER/Cost\ strategies\ 1.webp");
     /* min-height: 100vh; */
     position: relative;
     background-size: cover;
@@ -222,3 +222,4 @@ a:hover{
 .data:last-child {
   border-right: none;
 }
+/* FOOTER */

@@ -16,10 +16,12 @@
       B Airline <i class="fa-solid fa-plane"></i>
       <nav>
         <ul>
-          <li><a href="../home">Home</a></li>
-          <li><a href="../feedback">Feedback</a></li>
-          <li><a href="../book">Book</a></li>
-          <li><a class="log" href="../home">Log out</a></li>
+          <li><a href="/auth/home">Home</a></li>
+          <li><a href="/auth/feedback">Feedback</a></li>
+          <li><a href="/auth/book">Book</a></li>
+          <li>
+            <a class="log" id="logout-link">Log out</a>
+          </li>
         </ul>
       </nav>
       <i class="fa-solid fa-bars"></i>
@@ -33,23 +35,29 @@
             class="profile-img"
           />
         </div>
-
+        <input
+          value="<%=user.getID()%>"
+          type="text"
+          hidden
+          id="user_id_input"
+        />
         <div class="text-data">
-        <span class="name">SANDARUTH SIRIWARDANA</span> <!-- ann any number -->
-        <span class="user-name">Sanda_123</span>
-      </div>
-      <div id="box" class="box"></div>
-      <style>
-       .box {
-        height: 50px;
-        width: 300px;
-        border-radius: 25%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 30px;
-        font-weight: bold;
-        color: white;
+          <span class="name"><%= user.getFname()%> <%=user.getlname()%></span>
+          <!-- ann any number -->
+          <span class="user-name"><%=user.getUserName()%></span>
+        </div>
+        <div id="box" class="box"></div>
+        <style>
+          .box {
+            height: 50px;
+            width: 300px;
+            border-radius: 25%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            font-weight: bold;
+            color: white;
             margin-top: 10px;
           }
           .box:hover {
@@ -72,5 +80,19 @@
     const box = document.getElementById("box");
     box.style.backgroundColor = color;
     box.innerText = word;
+    const logoutlink = document.getElementById("logout-link");
+    logoutlink.addEventListener("click", async () => {
+      event.preventDefault(); // prevent the default action of the anchor tag
+      console.log(document.getElementById("user_id_input").value);
+      await fetch("/auth/logout", {
+        method: "POST",
+        body: {
+          user: {
+            profile_ID: document.getElementById("user_id_input").value,
+          },
+        },
+        headers: { "Content-Type": "application/json" },
+      });
+    });
   </script>
 </html>

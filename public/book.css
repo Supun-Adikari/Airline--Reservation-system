@@ -5,7 +5,7 @@
 body{
     background-image: url("travel-wallpaper-collage-desktop-background-for-free-hd-1920x1080-2e4i57dmv8jejhd1.jpg");
     background-size: cover;
-    min-height: 200vh;
+    /* min-height: 200vh; */
     position: relative;
     background-size: cover;
     background-repeat: no-repeat;
@@ -140,3 +140,4 @@ tr:nth-child(even) {
   background-color: #4c51af;
   color: white;
 }
+

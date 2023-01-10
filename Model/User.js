@@ -26,7 +26,7 @@ class RegUser{
         else{
             this.fname = null;
         }
-
+        
         if(lname){
             this.lname = lname;
         }
@@ -37,6 +37,21 @@ class RegUser{
 
     getType(){
         return(this.userTP);
+    }
+
+    getID(){
+        return(this.profile_ID);
+    }
+    getUserName(){
+        return(this.UserName);
+    }
+     
+    getFname(){
+        return(this.fname);
+    }
+
+    getlname(){
+        return(this.lname);
     }
     
     

@@ -4,7 +4,10 @@ const {executeSQL} = require("../Database/database");
 const Method = require("../Controller/method");
 const {RegUser} = require("./User");
 const { parse } = require('querystring');
-const ACCESS_TOKEN_SECRECT = "Group21Project"; //udj
+const dotenv = require('dotenv');
+dotenv.config();
+
+const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
 
 var RegUsers = new Map();
 
@@ -68,22 +71,22 @@ async function login(method){
         
         if (status){
 
-            var user =createUser(profile_ID,UserName,"Registered",fname,lname);
+            var user = createUser(profile_ID,UserName,"Registered",fname,lname);
             console.log(user);
 
             if (RegUsers.has(profile_ID)){
 
                 RegUsers.delete(username);
 
-                await executeSQL('UPDATE sessions SET session_id = ?, end_time=? WHERE user_id= ?',[user.sessionID,Number(new Date().getTime()),user.profile_ID]);
+                await executeSQL('UPDATE sessions SET session_id = ?, end_time=? WHERE user_id= ?',[user.sessionID,new Date(Date.now()).toISOString().replace(/T/, ' ').replace(/Z/, ''),user.profile_ID]);
                 
                 console.log("Logging out previous users");
 
             }else{
 
                 try{
-
-                    await executeSQL('INSERT INTO sessions VALUES (?,?,?)',[user.sessionID,user.profile_ID,Number(new Date().getTime())]);
+                    await executeSQL('INSERT INTO sessions VALUES (?,?,?)',[user.sessionID,user.profile_ID,(new Date(Date.now())).toISOString().replace(/T/, ' ').replace(/Z/, '')]);
+                    console.log("new session inserted")
                 }
                 catch(e){
                     console.log(e);
@@ -95,6 +98,7 @@ async function login(method){
 
     
             const token = getAccessToken({sessionID:user.sessionID,profile_ID:user.profile_ID});
+            console.log(token);
     
             //method.setToken(token,true,50000000);
 
@@ -117,7 +121,7 @@ async function login(method){
 }
 
 async function logout(user){
-
+    console.log(user.profile_ID)
     RegUsers.delete(user.profile_ID);
 
     try{
@@ -134,11 +138,10 @@ async function logout(user){
 
 
 const getAccessToken = (data)=>{
-    token = sign(data, ACCESS_TOKEN_SECRECT,{algorithm: "HS256",expiresIn:"180m"});
-    console.log(token);
+    token = sign(data, ACCESS_TOKEN_SECRET,{algorithm: "HS256",expiresIn:"180m"});
     return token;
 };
-
+ 
 
 var ExtractRegUser =async function(req,res, next){
 
@@ -146,8 +149,12 @@ var ExtractRegUser =async function(req,res, next){
 
     var token = method.getToken();
     console.log(token);
+    if (token == null){
+        console.log("No token2");
+        return res.sendStatus(203);
+    }
     try{
-        const {sessionID,profile_ID} = verify(token,ACCESS_TOKEN_SECRECT);
+        const {sessionID,profile_ID} = verify(token,ACCESS_TOKEN_SECRET);
         if(sessionID){
             
             var user = RegUsers.get(profile_ID);
@@ -161,8 +168,9 @@ var ExtractRegUser =async function(req,res, next){
     catch(err){
         console.log(err);
         console.log("Invaild token"); //when token expires
-        res.sendStatus(203);
+        res.sendStatus(403);
     }
+    
 }
 
 var UpdateSession =async function(req,res, next){
@@ -171,9 +179,15 @@ var UpdateSession =async function(req,res, next){
 
     var token = method.getToken();
     
+    var token = method.getToken();
+    console.log(token);
+    if (token == null){
+        console.log("No token1");
+    }
+
     console.log(token);
     try{
-        const {sessionID,profile_ID} = verify(token,ACCESS_TOKEN_SECRECT);
+        const {sessionID,profile_ID} = verify(token,ACCESS_TOKEN_SECRET);
         if(sessionID){
             
             var user = RegUsers.get(profile_ID);
@@ -198,19 +212,19 @@ var RestoreSession = async function(){
     var data = null;
 
     try{
-        [data] = await executeSQL('SELECT * FROM (sessions LEFT JOIN users on (sessions.User_Id = users.id)) LEFT JOIN registered_users on (sessions.User_Id = registered_users.id)');
+        data = await executeSQL('SELECT * FROM (sessions LEFT JOIN users on (sessions.User_Id = users.id)) LEFT JOIN registered_users on (sessions.User_Id = registered_users.id)');
     }catch(e){
         console.log(e);
         console.log("error");
     }
-    //console.log(data);
+    //console.log("data", data);
    
     if (data == null){
         return;
     }
-    for (const [key, value] of data.entries()){
+    for (const value of data){
 
-        var user = createUser(value.profile_ID,value.UserName,"Registered",value.First_Name,value.Last_Name,value.Session_id,value.Last_used_time);
+        var user = createUser(value.id,value.username,"Registered",value.fname,value.lname,value.Session_id,value.end_time);
         RegUsers.set(value.profile_ID,user)
     
     }
@@ -239,8 +253,8 @@ function ShowCurrentUsers(){
     }
 }
 
-function getCurrentUser(user){
-    return [user.UserName,user.fname,user.lname];
-}
+// function getCurrentUser(user){
+//     return [user.UserName,user.fname,user.lname];
+// }
 
 module.exports = {login,register,getAccessToken,ExtractRegUser,UpdateSession,RestoreSession,logout,ShowCurrentUsers};

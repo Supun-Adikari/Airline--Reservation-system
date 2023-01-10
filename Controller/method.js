@@ -21,13 +21,17 @@ class Method{
         return this.url.searchParams.get(query);
     }
     getToken(){
-        var token = this.req.headers['authorization'];
-
+        const authHeader = this.req.headers['authorization'];
+        const token = authHeader && authHeader.split(' ')[1];
         return(token);
     }
 
     setUser(user){
         this.user=user;
+    }
+
+    getUser(){
+        return(this.user);
     }
 
     getBody(){
