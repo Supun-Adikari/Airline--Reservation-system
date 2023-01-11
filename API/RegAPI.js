@@ -12,7 +12,27 @@ router.use(ExtractRegUser)
 const uController = new UserController();
 
 ////////////////////////////////////////////////////// GET Requests/////////////////////////////////////////////////////
-// Request No: 16
+router.get('/', function (req, res, next) {
+    console.log("home ekata awa")
+    res.render('home');
+  });
+  
+router.get('/home', function (req, res, next) {
+      res.render('home');
+  });
+
+router.get('/login', function (req, res) {
+    res.render('login'); 
+});
+
+router.get('/book', function (req, res) {
+    res.render('book');
+});
+
+router.get('/feedback', function (req, res) {
+    res.render('feedback');
+});
+
 router.get('/BookedFlightDetails',async function(req, res){
 
     var method = new Method(req,res);

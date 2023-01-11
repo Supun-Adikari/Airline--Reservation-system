@@ -3,7 +3,7 @@
     font-family: 'josefin sans', sans-serif;
 }
 body{
-    background-image: url("/Img/Home-BackGround.jpg");
+    background-image: url("Home-BackGround.jpg");
     position: relative;
     background-size: cover;
     background-repeat: no-repeat;

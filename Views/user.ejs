@@ -16,12 +16,13 @@
       B Airline <i class="fa-solid fa-plane"></i>
       <nav>
         <ul>
-          <li><a href="/auth/home">Home</a></li>
-          <li><a href="/auth/feedback">Feedback</a></li>
-          <li><a href="/auth/book">Book</a></li>
-          <li>
-            <a class="log" id="logout-link">Log out</a>
-          </li>
+          <li><a href="../api/registered/home">Home</a></li>
+          <li><a href="../api/registered/feedback">Contact Us</a></li>
+          <li><a href="../api/registered/book">My Account</a></li>
+          <li><a class="log" href="/home.html">Log out</a></li>
+          <!-- <li>
+                  <a class="log" id="logout-link">Log out</a>
+                </li> -->
         </ul>
       </nav>
       <i class="fa-solid fa-bars"></i>
@@ -35,12 +36,13 @@
             class="profile-img"
           />
         </div>
-        <input
+        <!-- <input
           value="<%=user.getID()%>"
           type="text"
           hidden
           id="user_id_input"
-        />
+        /> -->
+
         <div class="text-data">
           <span class="name"><%= user.getFname()%> <%=user.getlname()%></span>
           <!-- ann any number -->
@@ -69,7 +71,9 @@
           <a href=" add all tikets page "
             ><button class="button">Booked</button></a
           >
-          <a href="book"> <button class="button">Booking</button></a>
+          <a href="/Booking/book.html">
+            <button class="button">Booking</button></a
+          >
         </div>
       </div>
     </div>
@@ -80,19 +84,18 @@
     const box = document.getElementById("box");
     box.style.backgroundColor = color;
     box.innerText = word;
-    const logoutlink = document.getElementById("logout-link");
-    logoutlink.addEventListener("click", async () => {
-      event.preventDefault(); // prevent the default action of the anchor tag
-      console.log(document.getElementById("user_id_input").value);
-      await fetch("/auth/logout", {
-        method: "POST",
-        body: {
-          user: {
-            profile_ID: document.getElementById("user_id_input").value,
-          },
-        },
-        headers: { "Content-Type": "application/json" },
-      });
-    });
+    // logoutlink.addEventListener("click", async () => {
+    //   event.preventDefault(); // prevent the default action of the anchor tag
+    //   console.log(document.getElementById("user_id_input").value);
+    //   await fetch("/auth/logout", {
+    //     method: "POST",
+    //     body: {
+    //       user: {
+    //         profile_ID: document.getElementById("user_id_input").value,
+    //       },
+    //     },
+    //     headers: { "Content-Type": "application/json" },
+    //   });
+    // });
   </script>
 </html>

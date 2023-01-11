@@ -6,9 +6,9 @@ var regApiController = require("./RegAPI");
 const {ResponseHandler} = require("../Controller/ResponseController");
 const Method = require("../Controller/method");
 const UserController = require("../Controller/UserController");
-const {UpdateSession,logout} = require("../Model/Authentication");
-
-router.use('/registered',regApiController);
+const {UpdateSession} = require("../Model/Authentication");
+console.log("api ekata awa")
+router.use('api/registered',regApiController);
 
 router.use(UpdateSession);
 const uController = new UserController();

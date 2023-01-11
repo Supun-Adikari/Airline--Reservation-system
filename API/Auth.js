@@ -1,15 +1,10 @@
 var express = require('express');
 var router = express.Router();
 
-const app = express();
-const bodyParser = require('body-parser');
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
 const {ResponseHandler} = require("../Controller/ResponseController");
 const Method = require("../Controller/method");
 
-const {login,register, logout} = require("../Model/Authentication");
+const {login,register} = require("../Model/Authentication");
 const { application } = require('express');
 
 

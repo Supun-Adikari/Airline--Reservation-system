@@ -6,8 +6,11 @@ const {RegUser} = require("./User");
 const { parse } = require('querystring');
 const dotenv = require('dotenv');
 dotenv.config();
+var bcrypt = require('bcryptjs'); 
 
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
+
+const salt = 10;
 
 var RegUsers = new Map();
 
@@ -20,25 +23,28 @@ async function register(method){
     const Password = body.password;
     const DoB = body.DoB;
     const Address = body.address;
-
+    
     //users table
     const Title = body.title;
     const First_Name = body.fName;
     const Last_Name = body.lName;
     const Email = body.email;
     const Country = body.country;
-
+    console.log(Password);
+    // console.log("Got in1");
+    
     try{
         const [data] = await executeSQL('SELECT userName FROM registered_users WHERE userName = ?',[UserName]);
         
         if(data){
-
-            return ("Error : Username already exists");
-        
-        }else{
             
-            const hash_Password = await hash(Password,10);
-            values = [Title,First_Name,Last_Name,DoB,Email,Country,UserName,hash_Password,Address];
+            return ("Error : Username already exists");
+            
+        }else{
+            // console.log("Got in");
+            hashedPassword = await hash(Password,salt);
+            values = [Title,First_Name,Last_Name,DoB,Email,Country,UserName,hashedPassword,Address];
+            console.log(values)
             await executeSQL('CALL new_user_registered(?,?,?,?,?,?,?,?,?)',values)
             
             console.log(UserName + " successfuly added");
@@ -57,13 +63,17 @@ async function login(method){
 
     const body = method.getBody();
 
+    console.log(body);
     const username = body.username;
     const password = body.password;    
     try{
         const [validation] = await executeSQL('SELECT users.id, username , password_, f_Name, l_Name FROM users left join registered_users on users.id = registered_users.id WHERE registered_users.username =?',[username]);
         // console.log(validation.Password);
         console.log(validation);
+        // const status = password.localeCompare(validation.password_);
         const status = await compare(password,validation.password_);
+        // console.log(status)
+        // console.log("Status Above");
         const profile_ID = validation.id;
         const UserName = validation.username;
         const fname = validation.f_Name;

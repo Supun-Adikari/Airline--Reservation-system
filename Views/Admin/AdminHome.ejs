@@ -21,9 +21,9 @@
   <div class="wrapper">
     <nav>
         <ul>
-            <li><a href="AdminHome"class="page">Home</a></li>
-            <li><a href="Passengers">Passengers</a></li>
-            <li ><a href="flights" >flights</a></li>
+            <li><a href="/Admin/AdminHome"class="page">Home</a></li>
+            <li><a href="/Admin/Passengers">Passengers</a></li>
+            <li ><a href="/Admin/flights" >flights</a></li>
             <style>
               .page{
                 color: #fff;
@@ -32,7 +32,7 @@
               margin: 0% 0% 0% 0%;
               }
             </style>
-            <li><a href="login">log out</a></li>
+            <li><a href="../home">log out</a></li>
             <!-- <li><a href="#"></a></li> -->
         </ul>
     </nav>
@@ -114,7 +114,8 @@
       <label for="arrival-city">Arrival City:</label><br>
       <input type="text" id="arrival-city" name="arrival-city" placeholder="City B"><br>
       <label for="departure-time">Departure Time:</label><br>
-      <input type="text" id="departure-time" name="departure-time"><br>
+      <input type="time" id="appt" name="appt"><br>
+      <!-- <input type="text" id="departure-time" name="departure-time"><br> -->
       <label for="arrival-time">Arrival Time:</label><br>
       <input type="text" id="arrival-time" name="arrival-time"><br><br>
       <input class="btn" type="submit" value="Add Flight">

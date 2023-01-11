@@ -1,10 +1,10 @@
 function ResponseHandler(status){
     if (status=="Error"){
-        return("400");
+        return(400);
     }else if(status == "AccessDenied"){
-        return("203");
+        return(203);
     }else{
-        return("200");
+        return(200);
     }
 }
 
