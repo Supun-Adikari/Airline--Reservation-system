@@ -115,7 +115,8 @@
 
     const DeleteButton = document.getElementById("DeleteButton");
     DeleteButton.addEventListener("click", async (event) => {
-      // event.preventDefault();
+      event.preventDefault();
+      window.location.replace("/home");
       console.log(typeof token);
       console.log("typeof token eka thyena thana");
       customHeaders(token);
