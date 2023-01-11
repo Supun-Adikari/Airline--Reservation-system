@@ -17,7 +17,6 @@ router.post('/login',async function(req, res){
     // const viewUser = getCurrentUser();
     console.log(log_status.status, log_status.user);
     if(log_status.status){
-        console.log("login1");
         res.render('user',{user:log_status});
     }
     else{

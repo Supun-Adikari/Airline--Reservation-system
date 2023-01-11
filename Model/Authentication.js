@@ -44,7 +44,6 @@ async function register(method){
             // console.log("Got in");
             hashedPassword = await hash(Password,salt);
             values = [Title,First_Name,Last_Name,DoB,Email,Country,UserName,hashedPassword,Address];
-            console.log(values)
             await executeSQL('CALL new_user_registered(?,?,?,?,?,?,?,?,?)',values)
             
             console.log(UserName + " successfuly added");
@@ -155,24 +154,30 @@ const getAccessToken = (data)=>{
 
 var ExtractRegUser =async function(req,res, next){
 
+    
     var method = new Method(req,res);
-
+    
     var token = method.getToken();
-    token = token.replaceAll('"','')
     console.log(token);
     if (token == null){
         console.log("No token2");
         return res.sendStatus(203);
     }
     try{
-        const {sessionID,profile_ID} = await  verify(token,ACCESS_TOKEN_SECRET);
+        token = token.replaceAll('"','')
+        const {sessionID,profile_ID} = verify(token,ACCESS_TOKEN_SECRET);
         console.log("Verified")
+        RestoreSession();
         if(sessionID){
             
             var user = RegUsers.get(profile_ID);
+            console.log(RegUsers)
             console.log(user);
             await user.setLastUsedTime();
             req.user = user;
+
+            const token = getAccessToken({sessionID:user.sessionID,profile_ID:user.profile_ID});
+            res.header("token",token);
         }
 
         next();
@@ -234,8 +239,9 @@ var RestoreSession = async function(){
     }
     for (const value of data){
 
-        var user = createUser(value.id,value.username,"Registered",value.fname,value.lname,value.Session_id,value.end_time);
-        RegUsers.set(value.profile_ID,user)
+        var user = createUser(value.id,value.username,"Registered",value.fname,value.lname,value.session_id,value.end_time);
+        RegUsers.set(value.id,user) 
+        console.log(RegUsers);
     
     }
 
