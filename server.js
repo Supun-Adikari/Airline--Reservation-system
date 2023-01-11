@@ -27,6 +27,9 @@ app.use('/', apiController)
 app.use('/api',apiController);
 app.use('/auth',authController);
 
+app.use('/admin',apiController);
+
+
 
 //Set up EJS//udj
 app.set('view engine', 'ejs')

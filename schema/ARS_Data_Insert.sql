@@ -48,7 +48,7 @@ INSERT INTO airports (id, IATA_code, country_city, parent_id) VALUES
 (1006, 'BOM', 'Mumbai', 3),
 (1007, 'MAA', 'Chennai', 3),
 (1008, 'BKK', 'Bangkok', 4),
-(1009, 'DMK', 'Bangkok', 4),
+(1009, 'DMK', 'Don Mueang', 4),
 (1010, 'SIN', 'Singapore', 5),
 (1011, 'JFK', 'New York City', 101);
 

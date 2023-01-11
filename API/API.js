@@ -19,6 +19,10 @@ const uController = new UserController();
 router.get('/', function (req, res, next) {
       res.render('home');
     });
+router.get('/adminLogin', function (req, res, next) {
+        res.render('Admin/AdminLogin');
+    });
+
     
 router.get('/home', function (req, res, next) {
         res.render('home');
