@@ -16,10 +16,10 @@
       B Airline <i class="fa-solid fa-plane"></i>
       <nav>
         <ul>
-          <li><a href="../api/registered/home">Home</a></li>
+          <li><a href="#" id="HomeButton">Home</a></li>
           <li><a href="../api/registered/feedback">Contact Us</a></li>
           <li><a href="../api/registered/book">My Account</a></li>
-          <li><a class="log" href="/home.html">Log out</a></li>
+          <li><a class="log" href="/home">Log out</a></li>
           <!-- <li>
                   <a class="log" id="logout-link">Log out</a>
                 </li> -->
@@ -36,17 +36,14 @@
             class="profile-img"
           />
         </div>
-        <!-- <input
-          value="<%=user.getID()%>"
-          type="text"
-          hidden
-          id="user_id_input"
-        /> -->
+        <input value="<%=user.token%>" type="text" id="user_input" hidden />
 
         <div class="text-data">
-          <span class="name"><%= user.getFname()%> <%=user.getlname()%></span>
+          <span class="name"
+            ><%= user.user.getFname()%> <%=user.user.getlname()%></span
+          >
           <!-- ann any number -->
-          <span class="user-name"><%=user.getUserName()%></span>
+          <span class="user-name"><%=user.user.getUserName()%></span>
         </div>
         <div id="box" class="box"></div>
         <style>
@@ -78,12 +75,27 @@
       </div>
     </div>
   </body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
   <script>
     const color = "blue"; //GIVE THIS POINT TO ANY COLOR (BLUE,SILVER, GOLD)
     const word = "WELCOME"; //GIVE THIS POINT TO ANY WORD(NEW,GOLD OR FREQUENT)
     const box = document.getElementById("box");
     box.style.backgroundColor = color;
     box.innerText = word;
+
+    function customHeaders(token) {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+      };
+
+      axios
+        .get("/registered", config)
+        .then((res) => showOutput(res))
+        .catch((err) => console.error(err));
+    }
     // logoutlink.addEventListener("click", async () => {
     //   event.preventDefault(); // prevent the default action of the anchor tag
     //   console.log(document.getElementById("user_id_input").value);
@@ -97,5 +109,16 @@
     //     headers: { "Content-Type": "application/json" },
     //   });
     // });
+    const token = ''+document.getElementById("user_input").value;
+    console.log("token eka thyena thana");
+    console.log(token);
+
+    const HomeButton = document.getElementById("HomeButton");
+    HomeButton.addEventListener("click", async (event) => {
+      event.preventDefault();
+      console.log(typeof token);
+      console.log("typeof token eka thyena thana");
+      customHeaders(token);
+    });
   </script>
 </html>

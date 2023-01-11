@@ -7,8 +7,8 @@ const {ResponseHandler} = require("../Controller/ResponseController");
 const Method = require("../Controller/method");
 const UserController = require("../Controller/UserController");
 const {UpdateSession} = require("../Model/Authentication");
-console.log("api ekata awa")
-router.use('api/registered',regApiController);
+// console.log("api ekata awa")
+router.use('/registered',regApiController);
 
 router.use(UpdateSession);
 const uController = new UserController();

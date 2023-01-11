@@ -59,7 +59,7 @@ class RegUser{
 
         this.lastUsedTime = Number(new Date().getTime());
         try{
-            await executeSQL(`UPDATE Session_table SET Last_used_time= ? WHERE User_Id = ?`,[Number(this.lastUsedTime),this.profile_ID]);
+            await executeSQL(`UPDATE Sessions SET end_time= ? WHERE user_Id = ?`,[Number(this.lastUsedTime),this.profile_ID]);
         }catch(e){
             console.log("Error");
         }  

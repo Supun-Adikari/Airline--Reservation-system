@@ -30,7 +30,7 @@ async function register(method){
     const Last_Name = body.lName;
     const Email = body.email;
     const Country = body.country;
-    console.log(Password);
+    // console.log(Password);
     // console.log("Got in1");
     
     try{
@@ -63,7 +63,7 @@ async function login(method){
 
     const body = method.getBody();
 
-    console.log(body);
+    // console.log(body);
     const username = body.username;
     const password = body.password;    
     try{
@@ -82,7 +82,7 @@ async function login(method){
         if (status){
 
             var user = createUser(profile_ID,UserName,"Registered",fname,lname);
-            console.log(user);
+            // console.log(user);
 
             if (RegUsers.has(profile_ID)){
 
@@ -148,7 +148,7 @@ async function logout(user){
 
 
 const getAccessToken = (data)=>{
-    token = sign(data, ACCESS_TOKEN_SECRET,{algorithm: "HS256",expiresIn:"180m"});
+    token = sign(data, ACCESS_TOKEN_SECRET,{expiresIn:"180m"});
     return token;
 };
  
@@ -158,13 +158,15 @@ var ExtractRegUser =async function(req,res, next){
     var method = new Method(req,res);
 
     var token = method.getToken();
+    token = token.replaceAll('"','')
     console.log(token);
     if (token == null){
         console.log("No token2");
         return res.sendStatus(203);
     }
     try{
-        const {sessionID,profile_ID} = verify(token,ACCESS_TOKEN_SECRET);
+        const {sessionID,profile_ID} = await  verify(token,ACCESS_TOKEN_SECRET);
+        console.log("Verified")
         if(sessionID){
             
             var user = RegUsers.get(profile_ID);
@@ -176,7 +178,7 @@ var ExtractRegUser =async function(req,res, next){
         next();
     }
     catch(err){
-        console.log(err);
+        console.error(err);
         console.log("Invaild token"); //when token expires
         res.sendStatus(403);
     }
@@ -186,8 +188,6 @@ var ExtractRegUser =async function(req,res, next){
 var UpdateSession =async function(req,res, next){
 
     var method = new Method(req,res);
-
-    var token = method.getToken();
     
     var token = method.getToken();
     console.log(token);

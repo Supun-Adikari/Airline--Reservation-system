@@ -128,9 +128,8 @@ CREATE TABLE tickets(
 
 
 CREATE TABLE sessions( 	
-	session_id INT AUTO_INCREMENT,
+	session_id VARCHAR(50),
 	user_id INT,
-	start_time DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	end_time DATETIME,
 
 	PRIMARY KEY(session_id, user_id),
