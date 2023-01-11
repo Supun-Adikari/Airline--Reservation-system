@@ -15,10 +15,10 @@ class UserControl{
     async getFlights(method){
         try{
             const body = method.getBody();
-            const From = body.From;
-            const To = body.To;
-            const From_Date = body.From_Date;
-            const To_Date = body.To_Date;
+            const From = body.Dep_Country;
+            const To = body.Dest_Country;
+            const From_Date = body.From_date;
+            const To_Date = body.To_date;
             
             const data = await executeSQL(
 

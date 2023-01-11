@@ -16,10 +16,10 @@
       B Airline <i class="fa-solid fa-plane"></i>
       <nav>
         <ul>
-          <li><a href="../home" id="HomeButton">Home</a></li>
+          <li><a href="../home">Home</a></li>
           <li><a href="../feedback">Contact Us</a></li>
           <li><a href="../book">My Account</a></li>
-          <li><a class="log" href="/home">Log out</a></li>
+          <li><a class="log" href="/home" id="DeleteButton">Log out</a></li>
           <!-- <li>
                   <a class="log" id="logout-link">Log out</a>
                 </li> -->
@@ -92,7 +92,7 @@
       };
 
       axios
-        .get("/registered", config)
+        .delete("/registered/logout", config)
         .then((res) => console.log(res))
         .catch((err) => console.error(err));
     }
@@ -113,8 +113,8 @@
     console.log("token eka thyena thana");
     console.log(token);
 
-    const HomeButton = document.getElementById("HomeButton");
-    HomeButton.addEventListener("click", async (event) => {
+    const DeleteButton = document.getElementById("DeleteButton");
+    DeleteButton.addEventListener("click", async (event) => {
       // event.preventDefault();
       console.log(typeof token);
       console.log("typeof token eka thyena thana");
