@@ -16,9 +16,9 @@
       B Airline <i class="fa-solid fa-plane"></i>
       <nav>
         <ul>
-          <li><a href="#" id="HomeButton">Home</a></li>
-          <li><a href="../api/registered/feedback">Contact Us</a></li>
-          <li><a href="../api/registered/book">My Account</a></li>
+          <li><a href="../home" id="HomeButton">Home</a></li>
+          <li><a href="../feedback">Contact Us</a></li>
+          <li><a href="../book">My Account</a></li>
           <li><a class="log" href="/home">Log out</a></li>
           <!-- <li>
                   <a class="log" id="logout-link">Log out</a>
@@ -93,7 +93,7 @@
 
       axios
         .get("/registered", config)
-        .then((res) => showOutput(res))
+        .then((res) => console.log(res))
         .catch((err) => console.error(err));
     }
     // logoutlink.addEventListener("click", async () => {
@@ -109,13 +109,13 @@
     //     headers: { "Content-Type": "application/json" },
     //   });
     // });
-    const token = ''+document.getElementById("user_input").value;
+    const token = "" + document.getElementById("user_input").value;
     console.log("token eka thyena thana");
     console.log(token);
 
     const HomeButton = document.getElementById("HomeButton");
     HomeButton.addEventListener("click", async (event) => {
-      event.preventDefault();
+      // event.preventDefault();
       console.log(typeof token);
       console.log("typeof token eka thyena thana");
       customHeaders(token);
