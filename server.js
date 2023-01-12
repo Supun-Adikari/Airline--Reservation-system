@@ -28,6 +28,7 @@ app.use('/api',apiController);
 app.use('/auth',authController);
 
 app.use('/admin',apiController);
+// app.use(require('./API'));
 
 
 

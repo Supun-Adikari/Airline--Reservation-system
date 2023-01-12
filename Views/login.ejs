@@ -22,7 +22,7 @@
       B Airline <i class="fa-solid fa-plane"></i>
       <nav>
         <ul>
-          <li><a href="home">Home</a></li>
+          <li><a href="home" id="homebutton">Home</a></li>
           <li><a href="feedback">Contact US</a></li>
           <li><a class="log" href="login">Login</a></li>
         </ul>
@@ -330,7 +330,7 @@
         </div>
       </div>
     </footer>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
     <script>
       const container = document.querySelector(".container"),
         pwShowHide = document.querySelectorAll(".showHidePw"),
@@ -338,6 +338,7 @@
         signUp = document.querySelector(".signup-link"),
         login = document.querySelector(".login-link");
 
+      const homebutton = document.getElementById("homebutton");
       //   js code to show/hide password and change icon
       pwShowHide.forEach((eyeIcon) => {
         eyeIcon.addEventListener("click", () => {
@@ -366,6 +367,17 @@
       login.addEventListener("click", () => {
         container.classList.remove("active");
       });
+      // homebutton.addEventListener("click", (event) => {
+      //   // event.preventDefault();
+      //   axios
+      //     .get("/home")
+      //     .then((res) => {
+      //       console.log(res);
+      //     })
+      //     .catch((err) => {
+      //       console.error(err);
+      //     });
+      // });
     </script>
   </body>
 </html>

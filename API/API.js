@@ -3,6 +3,7 @@ var express = require('express');
 const router = express.Router();
 var regApiController = require("./RegAPI");
 
+const path = require("path");
 const {ResponseHandler} = require("../Controller/ResponseController");
 const Method = require("../Controller/method");
 const UserController = require("../Controller/UserController");
@@ -19,13 +20,14 @@ const uController = new UserController();
 router.get('/', function (req, res, next) {
       res.render('home');
     });
-router.get('/adminLogin', function (req, res, next) {
+router.get('/adminLogin',function (req, res, next) {
         res.render('Admin/AdminLogin');
     });
 
     
-router.get('/home', function (req, res, next) {
-        res.render('home');
+router.get('/home', async function (req, res, next) {
+    res.render('home');
+        // await res.render(path.join(__dirname, '../Views/home.ejs'));
     });
 
 router.get('/login', function (req, res) {
