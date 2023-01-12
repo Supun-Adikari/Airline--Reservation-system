@@ -19,10 +19,6 @@ nav {
 	border-radius: 5px;
 }
 
-nav ul {
-	list-style: none;
-}
-
 nav ul li {
 	display: inline;
 }
@@ -96,7 +92,6 @@ body {
   }
   
   th, td {
-    /* border: 1px solid #333333; */
     border:1px solid #000;
     padding: 10px;
   }
@@ -132,7 +127,6 @@ body {
   .c{
     background-color: rgba(0, 0, 0, 0.21);
     border: 1px solid #000;
-    width: 1400px;
     position: relative;
     margin: 2% auto;
     PAdding: 2% 2% 2% 2%;
@@ -144,4 +138,16 @@ body {
     border: 1px solid #333333;
     border-radius: 5px;
     width: 100%;
+  }
+  /* make responsive  */
+  @media (max-width: 768px) {
+    .c{
+      width: 100%;
+    }
+    nav ul{
+      width: 100%;
+    }
+    .wrapper {
+      width: 100%;
+    }
   }

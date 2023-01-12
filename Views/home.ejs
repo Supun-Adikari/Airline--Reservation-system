@@ -14,7 +14,7 @@
         <nav>
             <ul>
                 <li><a href="home">Home</a></li>
-                <li><a href="feedback">Contact US</a></li>
+                <li><a href="contact">Contact US</a></li>
                 <li ><a class="log" href="login">Login</a></li>
             </ul>
         </nav>
@@ -41,20 +41,28 @@
         }
     </style>
     <form action="/getFlights" class="form" method="GET">
-      <label class="b">COUNTRY</label>
+      <label class="b">C I T Y</label>
       <style>
         .b{
           font-weight: bolder;
+
         }
       </style>
       <div class="column">
           <div class="select-box">
             <select class="sec" name="Dep_Country">
               <option hidden>F R O M</option>
-              <option>America</option>
-              <option>Japan</option>
-              <option>India</option>
-              <option>Nepal</option>
+              <option value="CGK">CGK(Jakarta)</option>
+              <option value="DPS">DPS(Denpasar)</option>
+              <option value="BIA">BIA(Colombo)</option>
+              <option value="HRI">HRI(Hambantota)</option>
+              <option value="DEL">DEL(Delhi)</option>
+              <option value="BOM">BOM(Mumbai)	</option>
+              <option value="MAA">MAA(Chennai)</option>
+              <option value="BKK">BKK(Bangkok)</option>
+              <option value="DMK">DMK(Don Mueang)	</option>
+              <option value="SIN">SIN(Singapore)</option>
+              <option value="JFK">JFK(New York City)</option>
             </select>
           </div>
           <style>
@@ -65,48 +73,31 @@
           <div class="select-box">
               <select class="sec" name="Dest_Country">
                 <option hidden>T O</option>
-                <option>America</option>
-                <option>Japan</option>
-                <option>India</option>
-                <option>Nepal</option>
+                <option value="CGK">CGK(Jakarta)</option>
+                <option value="DPS">DPS(Denpasar)</option>
+                <option value="BIA">BIA(Colombo)</option>
+                <option value="HRI">HRI(Hambantota)</option>
+                <option value="DEL">DEL(Delhi)</option>
+                <option value="BOM">BOM(Mumbai)	</option>
+                <option value="MAA">MAA(Chennai)</option>
+                <option value="BKK">BKK(Bangkok)</option>
+                <option value="DMK">DMK(Don Mueang)	</option>
+                <option value="SIN">SIN(Singapore)</option>
+                <option value="JFK">JFK(New York City)</option>
               </select>
             </div>
         </div>
       <div class="column">
           <div class="input-box">
-              <label>DEPARTURE</label>
+              <label>DEPARTURE DATE</label>
               <input class="sec" type="date" name="From_date" required />
             </div>
         <div class="input-box">
-          <label>DESTINATION</label>
+          <label>DESTINATION DATE</label>
           <input class="sec" type="date" name="To_date" required />
         </div>
       </div>
-      <div class="gender-box">
-        <!-- <h3>CLASS</h3> -->
-        <label class="b"> CLASS </label>
-        <BR>
-        <div class="gender-option">
-          <div class="gender">
-            <input type="radio" id="check-male" name="Eco" checked />
-            <label for="check-male">ECONOMY</label>
-          </div>
-          <div class="gender">
-            <input type="radio" id="check-female" name="Busi" />
-            <label for="check-female">BUSINESS</label>
-          </div>
-          <div class="gender">
-            <input type="radio" id="check-other" name="Plat" />
-            <label for="check-other">PLATINAM</label>
-          </div>
-        </div>
-      </div>
       <LAbel></LAbel>
-      <div class="input-box address">
-          <label>PASSENGERS</label>
-          <input class="sec" type="number" placeholder="Enter number of Passengers" required />
-        </div>
-      </div>
       <button type="submit">SEARCH</button>
     </form>
   </section>

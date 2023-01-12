@@ -2,28 +2,18 @@
 <html>
 <head>
   <title>Airplane Online Ticket Booking System Admin Panel</title>
-  <link rel="stylesheet" href="stylse.css">
+  <link rel="stylesheet" href="../stylse.css">
 </head>
-<style>
-  .c{
-    background-color: rgba(0, 0, 0, 0.21);
-    border: 1px solid #000;
-    width: 1400px;
-    position: relative;
-    margin: 2% auto;
-    PAdding: 2% 2% 2% 2%;
-
-  }
-</style>
+<!-- delet CSS file in hear -->
 <body>
   <h1 class="head">Airplane Online Ticket Booking System Admin Panel</h1>
   <!-- navigation -->
   <div class="wrapper">
     <nav>
         <ul>
-            <li><a href="/Admin/AdminHome"class="page">Home</a></li>
-            <li><a href="/Admin/Passengers">Passengers</a></li>
-            <li ><a href="/Admin/flights" >flights</a></li>
+            <li><a href="../Admin/AdminHome"class="page">Home</a></li>
+            <li><a href="../Admin/Passengers">Passengers</a></li>
+            <li ><a href="../Admin/flights" >flights</a></li>
             <style>
               .page{
                 color: #fff;
@@ -32,46 +22,67 @@
               margin: 0% 0% 0% 0%;
               }
             </style>
-            <li><a href="../home">log out</a></li>
+            <li><a href="adminLogin">log out</a></li>
             <!-- <li><a href="#"></a></li> -->
         </ul>
     </nav>
 </div>
 <div class="c">
-  <!-- Passenger search form -->
-  <h2><i>Search for Passengers</i></h2>
-  <form id="search-passengers-form">
-    <label for="customer-id">Customer ID:</label><br>
-    <input type="text" id="customer-id" name="customer-id" placeholder="200012312V"><br><br>
-    <input class="btn" type="submit" value="Search"><br>
-  </form> 
+  <style>
+    /* styling for the first span element */
+    span:nth-child(1) {
+      color: black;
+      font-size: 18px;
+    }
 
-  <!-- flight details -->
-  <h2 ><u>View All Bookings of searched Flight</u></h2><br>
-  <table id="flight-table">
-    <tr>
-      <th>Flight Number</th>
-      <th>Departure City</th>
-      <th>Arrival City</th>
-      <th>date</th>
-      <th>Departure Time</th>
-      <th>Arrival Time</th>
-        <th>Actions</th>
-    </tr>
-    <!-- Add rows for each booking here -->
-    <tr>
-      <td>AA123</td>
-      <td>Colombo</td>
-        <td>London</td>
-      <td>2022-01-01</td>
-      <td>04:00</td>
-        <td>06:00</td>
-      <td>
-        <button class="edit-button">Edit</button>
-        <button class="delete-button">Delete</button>
-      </td>
-    </tr>
-  </table><br>
+    /* styling for the second span element */
+    span:nth-child(2) {
+      color: black;
+      text-decoration: underline;
+      font-weight: bolder;
+    }
+    
+    /* styling for the third span element */
+    span:nth-child(3) {
+      color: black;
+      font-size: 18px;
+    }
+
+  </style>
+  <h1>Total Revenue = <span>$</span> <span>1200</span> <span>.99</span></h1>
+  <div class="grid-container">
+    <div class="grid-item">
+      <h2>revenue Of Boeing 737</h2>
+      <h1><span>$</span> <span>1200</span> <span>.99</span></h1>
+    </div>
+    <div class="grid-item">
+      <h2>revenue Of Boeing 757 </h2>
+      <h1><span>$</span> <span>1200</span> <span>.99</span></h1>
+    </div>
+    <div class="grid-item">
+      <h2>revenue Of Airbus A380</h2>
+      <h1><span>$</span> <span>1200</span> <span>.99</span></h1>
+    </div>
+  </div>
+  <style>
+    h1{
+      color: black;
+    }
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 10px;
+  }
+  
+  .grid-item {
+      background-color:rgba(100, 100, 100, 0.573);
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+  }
+
+  
+  </style>
 </div>
 <div class="c">
     <!-- Flights search form -->
@@ -104,6 +115,99 @@
       </tr>
     </table><br>
   </div>
+  <div class="c">
+    <h2><u>View All Bookings of Givin Date Range</u></h2><br>
+    <form>
+      <label>Start Date: <input type="date" name="start_date" ></label>
+      <label>End Date: <input type="date" name="end_date"></label>
+      
+      <label>Select City: 
+        <select name="city">
+          <option hidden>C I T Y </option>
+          <option value="CGK">CGK(Jakarta)</option>
+          <option value="DPS">DPS(Denpasar)</option>
+          <option value="BIA">BIA(Colombo)</option>
+          <option value="HRI">HRI(Hambantota)</option>
+          <option value="DEL">DEL(Delhi)</option>
+          <option value="BOM">BOM(Mumbai)	</option>
+          <option value="MAA">MAA(Chennai)</option>
+          <option value="BKK">BKK(Bangkok)</option>
+          <option value="DMK">DMK(Don Mueang)	</option>
+          <option value="SIN">SIN(Singapore)</option>
+          <option value="JFK">JFK(New York City)</option>
+        </select>
+        <input type="submit" value="Submit">
+     </label>
+    </form>  
+    <style>
+      form {
+    width: 400px; /* Set the width of the form */
+    margin: 50px auto; /* Center the form on the page */
+    text-align: center; /* Center the form's content */
+    padding: 30px; /* Add some padding to the form */
+    background-color: #FFFFFF; /* White background color for the form */
+    border: 1px solid #CCCCCC; /* Gray border for the form */
+    border-radius: 10px; /* Round the corners of the form */
+    box-shadow: 0px 0px 10px #CCCCCC; /* Add a shadow to the form */
+  }
+  form select{
+    width:100%; /* Make the select field take up the full width of the form */
+    padding:12px 20px; /* Add some padding to the select field */
+    margin-bottom:20px; /* Add some margin at the bottom of the select field */
+    border:1px solid #CCCCCC; /* Add a gray border to the select field */
+    border-radius:5px; /* Round the corners of the select field */
+    box-sizing:border-box; /* Make sure the select field takes into account the border and padding */
+}
+
+  /* Style the labels */
+  form label {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333333;
+    margin-bottom: 10px;
+  }
+  
+  /* Style the input fields */
+  form input[type="date"] {
+    width: 100%; /* Make the input fields take up the full width of the form */
+    padding: 12px 20px; /* Add some padding to the input fields */
+    margin-bottom: 20px; /* Add some margin at the bottom of the input fields */
+    border: 1px solid #CCCCCC; /* Add a gray border to the input fields */
+    border-radius: 5px; /* Round the corners of the input fields */
+    box-sizing: border-box; /* Make sure the input fields take into account the border and padding */
+  }
+    </style>  
+  </div>
+  <div class="c">
+    <h2><u>View All Booking types of Givin Date Range</u></h2><br>
+    <!-- make dashbord -->
+    <form action="">
+      <label>Start Date: <input type="date" name="start_date" ></label>
+      <label>End Date: <input type="date" name="end_date"></label>
+      <input type="submit" value="Submit">
+      <br>
+      <table>
+        <tr>
+          <th>Type</th>
+          <th>Count</th>
+        </tr>
+        <tr>
+          <td>Guest</td>
+          <td>00</td>
+        </tr>
+        <tr>
+          <td>Register</td>
+          <td>00</td>
+        </tr>
+      </table>
+      
+
+    </form>
+
+  </div>
+
+
+  
   <div class="c">
     <h1><u>Add New Flight</u></h1>
     <form id="add-flight-form">

@@ -273,4 +273,49 @@ function ShowCurrentUsers(){
 //     return [user.UserName,user.fname,user.lname];
 // }
 
-module.exports = {login,register,getAccessToken,ExtractRegUser,UpdateSession,RestoreSession,logout,ShowCurrentUsers};
+//admin Functions
+
+async function adminLogin(method){
+
+    const body = method.getBody();
+
+    console.log(body);
+    const username = body.username;
+    const password = body.password;    
+    try{
+        const [validation] = await executeSQL('SELECT id,username, password_ FROM admins WHERE username =?',[username]);
+        // console.log(validation.Password);
+        console.log(validation);
+        // const status = password.localeCompare(validation.password_);
+        const status =(''+password)==(''+validation.password_);
+        console.log(status)
+        console.log("Status Above");
+        const adminUsername = validation.username
+        const adminID = validation.id;
+        
+        if (status){
+
+            // const token = getAccessToken(adminID);
+            // console.log(token);
+    
+            //method.setToken(token,true,50000000);
+
+            console.log(adminUsername + " Logged In Successfully !!!");
+
+            return ({"adminID":adminID,"status":true});
+
+        }else{
+            console.log(e)
+            return("Error");
+        }
+
+    }catch(e){
+        console.log(e);
+        return("Error");
+    }
+
+    
+ 
+}
+
+module.exports = {login,register,getAccessToken,ExtractRegUser,UpdateSession,RestoreSession,logout,ShowCurrentUsers,adminLogin};

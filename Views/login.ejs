@@ -23,12 +23,9 @@
       <nav>
         <ul>
           <li>
-            <a href="home" id="homebutton">Home</a>
-            <!-- <form action="/home" method="GET">
-              <button type="submit">Home</button>
-            </form> -->
+            <a href="home">Home</a>
           </li>
-          <li><a href="feedback">Contact US</a></li>
+          <li><a href="contact">Contact US</a></li>
           <li><a class="log" href="login">Login</a></li>
         </ul>
       </nav>
@@ -343,7 +340,7 @@
         signUp = document.querySelector(".signup-link"),
         login = document.querySelector(".login-link");
 
-      const homebutton = document.getElementById("homebutton");
+      // const homebutton = document.getElementById("homebutton");
       //   js code to show/hide password and change icon
       pwShowHide.forEach((eyeIcon) => {
         eyeIcon.addEventListener("click", () => {
@@ -372,21 +369,21 @@
       login.addEventListener("click", () => {
         container.classList.remove("active");
       });
-      homebutton.addEventListener("click", (event) => {
-        event.preventDefault();
-        axios
-          .get("/home")
-          .then((res) => {
-            console.log(res);
-            // res.render("home");
-            document.innerHTML = res.data;
-            // return res.data;z
-          })
-          .catch((err) => {
-            console.error(err);
-          });
-        window.location.assign("/home");
-      });
+      // homebutton.addEventListener("click", (event) => {
+      //   event.preventDefault();
+      //   axios
+      //     .get("/home")
+      //     .then((res) => {
+      //       console.log(res);
+      //       // res.render("home");
+      //       document.innerHTML = res.data;
+      //       // return res.data;z
+      //     })
+      //     .catch((err) => {
+      //       console.error(err);
+      //     });
+      //   window.location.assign("/home");
+      // });
     </script>
   </body>
 </html>

@@ -138,6 +138,8 @@ CREATE TABLE sessions(
 
 
 -- VIEWS
+
+-- For the ADMIN report to get the total revenue by each aircraft type
 CREATE VIEW total_revenue_by_type AS
 SELECT aircraft_models.model AS aircraft_type, SUM(flights.revenue) AS total_revenue FROM
 flights LEFT JOIN (aircrafts LEFT JOIN aircraft_models ON aircrafts.model = aircraft_models.model_id) ON flights.aircraft_id = aircrafts.aircraft_id GROUP BY aircrafts.model;
@@ -154,7 +156,7 @@ DECLARE price NUMERIC(8,2) DEFAULT 0;
 DECLARE dscount NUMERIC(3, 2) DEFAULT 0.00;
 DECLARE usr_type CHAR(1);
 SET price = (SELECT price_multiplier FROM seating_class WHERE class_id = class) * (SELECT base_price FROM routes WHERE route_id = rute_id);
-IF (SELECT user_category FROM users WHERE id = user_id LIMIT 1) Like'R' THEN
+IF (SELECT user_category FROM users WHERE id = user_id LIMIT 1) LIKE'R' THEN
 	SET usr_type = (SELECT user_type FROM registered_users WHERE id = user_id);
 	SET dscount = (SELECT discount FROM reg_user_types WHERE userTypeID = usr_type);
 END IF;
@@ -166,6 +168,11 @@ DELIMITER ;
 
 
 -- PROCEDURES
+
+-- For API functionalities
+
+-- to add data to both 'users' and 'registered_users' tables
+-- call this procedure when a new user registered 
 DELIMITER //
 CREATE PROCEDURE new_user_registered(title VARCHAR(4), f_name VARCHAR(30), l_name VARCHAR(30), DoB DATE, email VARCHAR(30), country VARCHAR(30), username VARCHAR(30), password_ VARCHAR(100), address_ VARCHAR(100))
 BEGIN
@@ -179,6 +186,21 @@ END//
 DELIMITER ;
 
 
+-- procedure to search for available flights given 'origin city(IATA code)', 'destination city(IATA code)', 'from date', 'to date'
+DELIMITER //
+CREATE PROCEDURE search_flights(origin_city VARCHAR(3), destination_city VARCHAR(3), from_date DATE, to_date DATE)
+BEGIN
+	DECLARE orign_id INT DEFAULT 0;
+    DECLARE destnation_id INT DEFAULT 0;
+    DECLARE rute VARCHAR(5);
+    SET orign_id = (SELECT id FROM airports WHERE IATA_code = origin_city LIMIT 1);
+    SET destnation_id = (SELECT id FROM airports WHERE IATA_code = destination_city LIMIT 1);
+    SELECT route_id, flight_id, aircraft_id, flight_date, depature_time, remaining_tickets, flight_status, base_price FROM flights NATURAL JOIN routes WHERE (origin_id = orign_id AND destination_id = destnation_id AND flight_date >= from_date AND flight_date <= to_date);
+END//
+DELIMITER ;
+
+
+-- call this procedure when creating a new booking
 DELIMITER //
 CREATE PROCEDURE create_new_ticket(fligt_id VARCHAR(5), class_id CHAR(1), seat_id VARCHAR(5), u_id INT, adult_child CHAR(1))
 BEGIN
@@ -200,6 +222,9 @@ END//
 DELIMITER ;
 
 
+-- For ADMIN REPORTS
+
+-- given a flight_id we can get all the passenger details ordered by Adult or Child
 DELIMITER //
 CREATE PROCEDURE get_passenger_details(IN fligt_id VARCHAR(5))
 BEGIN
@@ -207,16 +232,17 @@ BEGIN
     PREPARE stmt FROM @sql;
     EXECUTE stmt;
     DEALLOCATE PREPARE stmt;
-    SELECT title, f_name, l_name, email, country, adult_child FROM (user_age LEFT JOIN users ON user_age.user_id = users.id);
+    SELECT title, f_name, l_name, email, country, adult_child FROM (user_age LEFT JOIN users ON user_age.user_id = users.id) ORDER BY adult_child;
 END //
 DELIMITER ;
 
 
+--  Given a date range and destination number of passengers travelling to that given destination(IATA_code)
 DELIMITER //
-CREATE PROCEDURE get_passenger_count(from_ DATE, to_ DATE, where_ VARCHAR(30))
+CREATE PROCEDURE get_passenger_count(from_ DATE, to_ DATE, where_ VARCHAR(3))
 BEGIN
 	DECLARE dest_id INT;
-    SET dest_id = (SELECT id FROM airports WHERE country_city = where_);
+    SET dest_id = (SELECT id FROM airports WHERE IATA_code = where_);
     SELECT COUNT(user_id) AS passenger_count FROM (flights NATURAL JOIN tickets NATURAL JOIN routes)
 				WHERE (flights.flight_date >= from_ AND 
 						flights.flight_date <= to_ AND
@@ -225,6 +251,7 @@ END //
 DELIMITER ;
 
 
+--  Given a date range, number of bookings by each user category
 DELIMITER //
 CREATE PROCEDURE get_no_of_bookings(from_ DATE, to_ DATE)
 BEGIN
@@ -232,20 +259,20 @@ BEGIN
     PREPARE stmt FROM @sql;
     EXECUTE stmt;
     DEALLOCATE PREPARE stmt;
-    SELECT * FROM tickets_in_range;
-    SELECT user_category, count(user_category) FROM (tickets_in_range LEFT JOIN users ON tickets_in_range.user_id = users.id) GROUP BY user_category;
+    SELECT user_category, count(user_category) AS no_of_bookings FROM (tickets_in_range LEFT JOIN users ON tickets_in_range.user_id = users.id) GROUP BY user_category;
 END //
 DELIMITER ;
 
 
+--  Given origin and destination, all past flights and passenger counts
 DELIMITER //
-CREATE PROCEDURE get_old_passengers(origin VARCHAR(30), destination VARCHAR(30))
+CREATE PROCEDURE get_old_passengers(origin VARCHAR(3), destination VARCHAR(3))
 BEGIN
 	DECLARE orign_id INT;
     DECLARE destnation_id INT;
 	DECLARE rute_id VARCHAR(5);
-    SET orign_id = (SELECT id FROM airports WHERE country_city = origin LIMIT 1);
-    SET destnation_id = (SELECT id FROM airports WHERE country_city = destination LIMIT 1);
+    SET orign_id = (SELECT id FROM airports WHERE IATA_code = origin LIMIT 1);
+    SET destnation_id = (SELECT id FROM airports WHERE IATA_code = destination LIMIT 1);
     SET rute_id = (SELECT route_id FROM routes WHERE (origin_id = orign_id AND destination_id = destnation_id));
     SELECT flight_id, (no_of_seats - remaining_tickets) AS passengers_travelled FROM
 																				routes NATURAL JOIN (flights LEFT JOIN (aircrafts LEFT JOIN aircraft_models ON aircrafts.model = aircraft_models.model_id) ON flights.aircraft_id = aircrafts.aircraft_id) WHERE route_id = rute_id AND flights.flight_date < CURRENT_DATE();
@@ -257,6 +284,8 @@ DELIMITER ;
 
 
 -- TRIGGERS
+
+-- trigger to update the registered user's type as Gold or Frequent or Pending according to the booking threshold 
 DELIMITER //
 CREATE TRIGGER update_user_type
 BEFORE UPDATE ON registered_users FOR EACH ROW
@@ -276,6 +305,9 @@ END//
 DELIMITER ;
 
 
+-- Default remaining_tickets for each flight is 0, so we need to set its
+-- remaining seats to no.of seats the aircraft it has according to the model
+-- here's a trigger that will active on each "insert" before on flights table
 DELIMITER //
 CREATE TRIGGER put_remaining_tickets_to_new_flight
 BEFORE INSERT ON flights

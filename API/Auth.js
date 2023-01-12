@@ -4,7 +4,7 @@ var router = express.Router();
 const {ResponseHandler} = require("../Controller/ResponseController");
 const Method = require("../Controller/method");
 
-const {login,register} = require("../Model/Authentication");
+const {login,register,adminLogin} = require("../Model/Authentication");
 const { application } = require('express');
 
 
@@ -36,25 +36,23 @@ router.post('/register',async function(req, res){
 
 });
 
-// router.post('auth/logout',async function(req, res){
-//     console.log("logout");
-//     console.log(req.body.user);
-//     var method = new Method(req,res);
-//     const user = req.body.user;
-//     await logout(user);
-//     res.redirect('../login');
-// });
+router.post('/adminHome',async function(req,res){
+    console.log("admin login");
 
-// router.delete('/logout',async function(req, res){
-    
-//     //var method = new Method(req,res);
-    
-//     const status = await logout(req.user);
+    var method = new Method(req,res);
 
-//     console.log(status);
-    
-//     res.status(ResponseHandler(status)).send(status);
-    
-// });
+    var log_status = await adminLogin(method);
+    if(log_status.status){
+        res.render('Admin/AdminHome');
+    }
+    else{
+        console.log("admin login failed");
+        res.redirect('../Admin/adminLogin');
+    }
+});
+
+router.get('/adminLogin',async function(req, res){
+    res.render('Admin/adminLogin');
+});
 
 module.exports = router;

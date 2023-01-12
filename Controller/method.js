@@ -23,9 +23,9 @@ class Method{
     getToken(){
         // const authHeader = this.req.headers['authorization'];
         // const token = authHeader && authHeader.split(' ')[1];
-        console.log("Header eka tyena thana");
-        console.log(this.req.headers);
-        console.log(this.req.headers['authorization']);
+        // console.log("Header eka tyena thana");
+        // console.log(this.req.headers);
+        // console.log(this.req.headers['authorization']);
         return(this.req.headers['authorization']);
     }
 

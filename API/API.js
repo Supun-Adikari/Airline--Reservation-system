@@ -20,30 +20,35 @@ const uController = new UserController();
 router.get('/', function (req, res, next) {
       res.render('home');
     });
+
+    
+    
+router.get('/home', async function (req, res, next) {
+    res.render('home');
+    // await res.render(path.join(__dirname, '../Views/home.ejs'));
+    // res.send("home21314");
+});
+    
+    router.get('/login', function (req, res) {
+        res.render('login'); 
+    });
+    
+    router.get('/book', function (req, res) {
+        res.render('book');
+    });
+  
+router.get('/feedback', function (req, res) {
+    res.render('feedback');
+});
+
+router.get('/contact', function (req, res) {
+    res.render('contact');
+});
+
 router.get('/adminLogin',function (req, res, next) {
         res.render('Admin/AdminLogin');
     });
 
-    
-router.get('/home', async function (req, res, next) {
-        console.log("home ekata awa2")
-        res.render('home');
-        // await res.render(path.join(__dirname, '../Views/home.ejs'));
-        // res.send("home21314");
-    });
-
-router.get('/login', function (req, res) {
-      res.render('login'); 
-  });
-  
-router.get('/book', function (req, res) {
-      res.render('book');
-  });
-  
-router.get('/feedback', function (req, res) {
-      res.render('feedback');
-  });
-  
 router.get('/getReservation',async function(req, res){
 
     const method = new Method(req,res);
