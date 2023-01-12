@@ -26,8 +26,10 @@ router.get('/adminLogin',function (req, res, next) {
 
     
 router.get('/home', async function (req, res, next) {
-    res.render('home');
+        console.log("home ekata awa2")
+        res.render('home');
         // await res.render(path.join(__dirname, '../Views/home.ejs'));
+        // res.send("home21314");
     });
 
 router.get('/login', function (req, res) {

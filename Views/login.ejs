@@ -22,7 +22,12 @@
       B Airline <i class="fa-solid fa-plane"></i>
       <nav>
         <ul>
-          <li><a href="home" id="homebutton">Home</a></li>
+          <li>
+            <a href="home" id="homebutton">Home</a>
+            <!-- <form action="/home" method="GET">
+              <button type="submit">Home</button>
+            </form> -->
+          </li>
           <li><a href="feedback">Contact US</a></li>
           <li><a class="log" href="login">Login</a></li>
         </ul>
@@ -367,17 +372,21 @@
       login.addEventListener("click", () => {
         container.classList.remove("active");
       });
-      // homebutton.addEventListener("click", (event) => {
-      //   // event.preventDefault();
-      //   axios
-      //     .get("/home")
-      //     .then((res) => {
-      //       console.log(res);
-      //     })
-      //     .catch((err) => {
-      //       console.error(err);
-      //     });
-      // });
+      homebutton.addEventListener("click", (event) => {
+        event.preventDefault();
+        axios
+          .get("/home")
+          .then((res) => {
+            console.log(res);
+            // res.render("home");
+            document.innerHTML = res.data;
+            // return res.data;z
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+        window.location.assign("/home");
+      });
     </script>
   </body>
 </html>

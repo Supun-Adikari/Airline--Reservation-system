@@ -17,7 +17,7 @@
       <nav>
         <ul>
           <li><a href="../home">Home</a></li>
-          <li><a href="../feedback">Contact Us</a></li>
+          <li><a href="../contact">Contact Us</a></li>
           <li><a href="../book">My Account</a></li>
           <li><a class="log" href="/home" id="DeleteButton">Log out</a></li>
           <!-- <li>
@@ -116,7 +116,7 @@
     const DeleteButton = document.getElementById("DeleteButton");
     DeleteButton.addEventListener("click", async (event) => {
       event.preventDefault();
-      window.location.replace("/home");
+      window.location.replace("/home")
       console.log(typeof token);
       console.log("typeof token eka thyena thana");
       customHeaders(token);
