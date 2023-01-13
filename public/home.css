@@ -121,7 +121,7 @@ a:hover{
     background-color: #55c2da69;
     position: relative;
     margin: 20px auto;
-    width: 1000px;
+    width: 80%;
     height: 10%;
 }   
 .banner-text{
@@ -270,7 +270,7 @@ footer{
 form --------------------------------------------------------------------------------------------------------------------------------------
 */
 .container {
-  margin: 100px 500px;
+  margin: 100px 340px;
   text-transform: capitalize;
   position: relative;
   /* max-width: 700px; */
@@ -308,7 +308,7 @@ form ---------------------------------------------------------------------------
   margin-top: 8px;
   border: 1px solid rgb(88, 56, 250);
   border-radius: 6px;
-  padding: 0 15px;
+  padding: 0 5px;
 }
 .input-box input:focus {
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
@@ -376,7 +376,7 @@ form ---------------------------------------------------------------------------
     flex-wrap: wrap;
   }
   .form :where(.gender-option, .gender) {
-    row-gap: 15px;
+    row-gap: 5px;
   }
 }
 

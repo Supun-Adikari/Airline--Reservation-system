@@ -260,7 +260,7 @@ BEGIN
     PREPARE stmt FROM @sql;
     EXECUTE stmt;
     DEALLOCATE PREPARE stmt;
-    SELECT user_category, count(user_category) AS no_of_bookings FROM (tickets_in_range LEFT JOIN users ON tickets_in_range.user_id = users.id) GROUP BY user_category;
+    SELECT user_category, count(user_category) AS no_of_bookings FROM (tickets_in_range LEFT JOIN users ON tickets_in_range.user_id = users.id) GROUP BY user_category ORDER BY user_category;
     DROP VIEW tickets_in_range;
 END //
 DELIMITER ;

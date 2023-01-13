@@ -62,24 +62,49 @@ async function getPassengerDetails(searchTerm){
 
 //Report 02
 async function getNoBookings_Daterange(queries){
+    try{
     const from_date = queries.startdate;
     const to_date = queries.enddate;
     const destination = queries.city;
 
     return await executeSQL('CALL get_passenger_count(?, ?, ?)', [from_date, to_date, destination]);;
+    }
+    catch(e){
+        console.log(e);
+        return [[[0]]];
+    }
 }
 
 
 //Report 03
-async function getBookingsByType(method){
-    const body = method.getBody();
-
-    console.log(body);
+async function getBookingsByType(queries){
     
-    const from_ = body.from_;
-    const to_ = body.to_;
+    console.log(queries);
+    const bookingsValue = {G:'0',R:'0'};
+    try{
+    const from_ = queries.startdate;
+    const to_ = queries.enddate;
 
-    return await executeSQL('CALL get_no_of_bookings(?, ?)', [from_, to_]);
+
+    const [bookings] = await executeSQL('CALL get_no_of_bookings(?, ?)', [from_, to_]);
+    console.log(bookings);
+    console.log("Above is bookings");
+    bookings.forEach(booking => {
+        if(booking.user_category=='G'){
+            bookingsValue.G = booking.no_of_bookings;
+        }             
+        else{
+            bookingsValue.R = booking.no_of_bookings;
+        }     
+    });
+    console.log(bookingsValue);
+
+    return bookingsValue;
+    }
+    catch(e){
+        console.log(e);
+        return bookingsValue;
+    }
 }
 
 
@@ -102,4 +127,4 @@ async function getRevenue(){
 }
 
 
-module.exports= {adminLogin, getRevenue, getPassengerDetails, getNoBookings_Daterange};
+module.exports= {adminLogin, getRevenue, getPassengerDetails, getNoBookings_Daterange,getBookingsByType,getOldPassengers};

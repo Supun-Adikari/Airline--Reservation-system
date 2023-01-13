@@ -3,7 +3,7 @@ var router = express.Router();
 
 const Method = require("../Controller/method");
 
-const {getRevenue,getNoBookings_Daterange,getPassengerDetails} = require("../Model/AdminAuthentication");
+const {getRevenue,getNoBookings_Daterange,getPassengerDetails,getBookingsByType} = require("../Model/AdminAuthentication");
 const { application } = require('express');
 
 
@@ -36,12 +36,23 @@ router.get('/AdminHome', async function (req, res, next) {
 
 router.get('/getNoBookings_Daterange', async function (req, res, next) {
     // console.log(req.url.searchParams.get('startdate'));
-    console.log("uda thyenne req eka-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+    console.log("palleha thyenne req eka-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");  
     console.log(req.query);
     const value = await getNoBookings_Daterange(req.query);
-    console.log(value[0][0]);
-    console.log("Methanata awa");
+    // console.log(value);
+    // console.log("Methanata awa");
     res.send(value[0][0]);
+});
+
+router.get('/getBookingsByType', async function(req,res,next){
+    console.log("palleha thyenne req eka-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+    console.log(req.query);
+    // console.log(req);
+    // console.log(res);
+    const value = await getBookingsByType(req.query);
+    console.log(value);
+    // console.log("Methanata awa");
+    res.send(value);
 });
 
 

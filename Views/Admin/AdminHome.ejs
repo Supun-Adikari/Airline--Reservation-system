@@ -117,8 +117,10 @@
       <h2><u>View All Bookings of Given Date Range</u></h2>
       <br />
       <form id="form1">
-        <label>Start Date: <input type="date" id="start_date1" /></label>
-        <label>End Date: <input type="date" id="end_date1" /></label>
+        <label
+          >Start Date: <input type="date" required id="start_date1"
+        /></label>
+        <label>End Date: <input type="date" required id="end_date1" /></label>
 
         <label
           >Select City:
@@ -136,7 +138,21 @@
             <option value="SIN">SIN(Singapore)</option>
             <option value="JFK">JFK(New York City)</option>
           </select>
-          <button id="btn1">Submit</button>
+          <button class="new-btn" id="btn1">Submit</button>
+          <style>
+            .new-btn {
+              background-color: #333333;
+              color: #ffffff;
+              padding: 10px;
+              border: none;
+              border-radius: 5px;
+              width: 100%;
+              cursor: pointer;
+            }
+            .new-btn:hover {
+              background-color: black;
+            }
+          </style>
         </label>
       </form>
       <div id="gridContainer">
@@ -203,9 +219,11 @@
       <br />
       <!-- make dashbord -->
       <form id="">
-        <label>Start Date: <input type="date" name="start_date2" /></label>
-        <label>End Date: <input type="date" name="end_date2" /></label>
-        <button id="btn2">Submit</button>
+        <label
+          >Start Date: <input type="date" id="start_date2" required
+        /></label>
+        <label>End Date: <input type="date" id="end_date2" /></label>
+        <button class="new-btn" id="btn2">Submit</button>
         <br />
         <table>
           <tr>
@@ -213,12 +231,12 @@
             <th>Count</th>
           </tr>
           <tr>
-            <td>Guest</td>
-            <td></td>
+            <td>Registered Customer</td>
+            <td id="Register_id"></td>
           </tr>
           <tr>
-            <td>Register</td>
-            <td></td>
+            <td>Guest Customer</td>
+            <td id="Guest_id"></td>
           </tr>
         </table>
       </form>
@@ -274,6 +292,7 @@
         "TOTAL BOOKINGS : " + value1; // add value
       document.getElementById("gridContainer").style.display = "grid";
     }
+
     function getNoBookings_Daterange(submitDetails) {
       axios
         .get("/admin/getNoBookings_Daterange", { params: submitDetails })
@@ -284,10 +303,31 @@
         .catch((err) => console.error(err));
     }
 
+    function displayText_report3(value1, value2) {
+      event.preventDefault();
+      document.getElementById("Register_id").innerHTML = "" + value1;
+      document.getElementById("Guest_id").innerHTML = "" + value2;
+    }
+
+    function getBookingsByType(submitDetails) {
+      axios
+        .get("/admin/getBookingsByType", { params: submitDetails })
+        .then((res) => {
+          console.log(res);
+          displayText_report3(res.data.R, res.data.G);
+        })
+        .catch((err) => console.error(err));
+    }
+
     const startdate = document.getElementById("start_date1");
     const enddate = document.getElementById("end_date1");
     const city = document.getElementById("city1");
     const btn = document.getElementById("btn1");
+
+    const startdate2 = document.getElementById("start_date2");
+    const enddate2 = document.getElementById("end_date2");
+    const btn2 = document.getElementById("btn2");
+
     // console.log(submitDetails);
     // console.log("submitDetails thyena thana");
     btn.addEventListener("click", (event) => {
@@ -297,13 +337,23 @@
         enddate: enddate.value,
         city: city.value,
       };
+      console.log("Event listener eka gannava");
+      getNoBookings_Daterange(submitDetails);
+    });
+
+    btn2.addEventListener("click", (event) => {
+      event.preventDefault();
+      const submitDetails = {
+        startdate: startdate2.value,
+        enddate: enddate2.value,
+      };
       // const submitDetails = {
       //   startdate: "2023-01-01",
       //   enddate: "2023-02-01",
-      //   city: "DPS",
       // };
-      console.log("Event listener eka gannava");
-      getNoBookings_Daterange(submitDetails);
+      console.log(submitDetails);
+      console.log("Event listener2 eka gannava");
+      getBookingsByType(submitDetails);
     });
   </script>
 </html>
