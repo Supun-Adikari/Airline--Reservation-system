@@ -233,6 +233,7 @@ BEGIN
     EXECUTE stmt;
     DEALLOCATE PREPARE stmt;
     SELECT title, f_name, l_name, email, country, adult_child FROM (user_age LEFT JOIN users ON user_age.user_id = users.id) ORDER BY adult_child;
+    DROP VIEW user_age;
 END //
 DELIMITER ;
 
@@ -260,6 +261,7 @@ BEGIN
     EXECUTE stmt;
     DEALLOCATE PREPARE stmt;
     SELECT user_category, count(user_category) AS no_of_bookings FROM (tickets_in_range LEFT JOIN users ON tickets_in_range.user_id = users.id) GROUP BY user_category;
+    DROP VIEW tickets_in_range;
 END //
 DELIMITER ;
 

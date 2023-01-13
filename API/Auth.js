@@ -4,7 +4,9 @@ var router = express.Router();
 const {ResponseHandler} = require("../Controller/ResponseController");
 const Method = require("../Controller/method");
 
-const {login,register,adminLogin} = require("../Model/Authentication");
+const {login,register} = require("../Model/Authentication");
+const {adminLogin} = require("../Model/AdminAuthentication");
+
 const { application } = require('express');
 
 
@@ -42,8 +44,9 @@ router.post('/adminHome',async function(req,res){
     var method = new Method(req,res);
 
     var log_status = await adminLogin(method);
+    console.log(log_status);
     if(log_status.status){
-        res.render('Admin/AdminHome');
+        res.render('Admin/AdminHome',{current:log_status});
     }
     else{
         console.log("admin login failed");

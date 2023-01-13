@@ -90,9 +90,9 @@ async function login(method){
                 await executeSQL('UPDATE sessions SET session_id = ?, end_time=? WHERE user_id= ?',[user.sessionID,new Date(Date.now()).toISOString().replace(/T/, ' ').replace(/Z/, ''),user.profile_ID]);
                 
                 console.log("Logging out previous users");
-
+                
             }else{
-
+                
                 try{
                     await executeSQL('INSERT INTO sessions VALUES (?,?,?)',[user.sessionID,user.profile_ID,(new Date(Date.now())).toISOString().replace(/T/, ' ').replace(/Z/, '')]);
                     console.log("new session inserted")
@@ -104,7 +104,7 @@ async function login(method){
             }
             
             RegUsers.set(profile_ID,user);
-
+            
     
             const token = getAccessToken({sessionID:user.sessionID,profile_ID:user.profile_ID});
             console.log(token);
@@ -150,10 +150,10 @@ const getAccessToken = (data)=>{
     token = sign(data, ACCESS_TOKEN_SECRET,{expiresIn:"180m"});
     return token;
 };
- 
+
 
 var ExtractRegUser =async function(req,res, next){
-
+    
     
     var method = new Method(req,res);
     
@@ -175,7 +175,7 @@ var ExtractRegUser =async function(req,res, next){
             console.log(user);
             await user.setLastUsedTime();
             req.user = user;
-
+            
             const token = getAccessToken({sessionID:user.sessionID,profile_ID:user.profile_ID});
             res.header("token",token);
         }
@@ -191,7 +191,7 @@ var ExtractRegUser =async function(req,res, next){
 }
 
 var UpdateSession =async function(req,res, next){
-
+    
     var method = new Method(req,res);
     
     var token = method.getToken();
@@ -199,7 +199,7 @@ var UpdateSession =async function(req,res, next){
     if (token == null){
         console.log("No token1");
     }
-
+    
     console.log(token);
     try{
         const {sessionID,profile_ID} = verify(token,ACCESS_TOKEN_SECRET);
@@ -210,7 +210,7 @@ var UpdateSession =async function(req,res, next){
             await user.setLastUsedTime();
             req.user = user;
         }
-
+        
         next();
     }
     catch(err){
@@ -221,11 +221,11 @@ var UpdateSession =async function(req,res, next){
 
 
 var RestoreSession = async function(){
-
+    
     console.log("Restoring Sessions");
-
+    
     var data = null;
-
+    
     try{
         data = await executeSQL('SELECT * FROM (sessions LEFT JOIN users on (sessions.User_Id = users.id)) LEFT JOIN registered_users on (sessions.User_Id = registered_users.id)');
     }catch(e){
@@ -233,18 +233,18 @@ var RestoreSession = async function(){
         console.log("error");
     }
     //console.log("data", data);
-   
+    
     if (data == null){
         return;
     }
     for (const value of data){
-
+        
         var user = createUser(value.id,value.username,"Registered",value.fname,value.lname,value.session_id,value.end_time);
         RegUsers.set(value.id,user) 
         console.log(RegUsers);
     
     }
-
+    
     ShowCurrentUsers();
 }
 
@@ -255,13 +255,13 @@ function createUser(profile_ID,username,type,fname,lname,sessionID,lastUsedTime)
 }
 
 function ShowCurrentUsers(){
-
+    
     var CurrUsers = "Logged in: ";
     console.log(RegUsers.entries());
     for (const [key, value] of RegUsers.entries()){
         CurrUsers = CurrUsers + value.UserName + "  " ;
     }
-
+    
     if (CurrUsers=="Logged in: "){
         console.log("Nobody Logged in");
     }else{
@@ -270,52 +270,8 @@ function ShowCurrentUsers(){
 }
 
 // function getCurrentUser(user){
-//     return [user.UserName,user.fname,user.lname];
-// }
-
-//admin Functions
-
-async function adminLogin(method){
-
-    const body = method.getBody();
-
-    console.log(body);
-    const username = body.username;
-    const password = body.password;    
-    try{
-        const [validation] = await executeSQL('SELECT id,username, password_ FROM admins WHERE username =?',[username]);
-        // console.log(validation.Password);
-        console.log(validation);
-        // const status = password.localeCompare(validation.password_);
-        const status =(''+password)==(''+validation.password_);
-        console.log(status)
-        console.log("Status Above");
-        const adminUsername = validation.username
-        const adminID = validation.id;
-        
-        if (status){
-
-            // const token = getAccessToken(adminID);
-            // console.log(token);
+    //     return [user.UserName,user.fname,user.lname];
+    // }
     
-            //method.setToken(token,true,50000000);
-
-            console.log(adminUsername + " Logged In Successfully !!!");
-
-            return ({"adminID":adminID,"status":true});
-
-        }else{
-            console.log(e)
-            return("Error");
-        }
-
-    }catch(e){
-        console.log(e);
-        return("Error");
-    }
-
     
- 
-}
-
-module.exports = {login,register,getAccessToken,ExtractRegUser,UpdateSession,RestoreSession,logout,ShowCurrentUsers,adminLogin};
+module.exports = {login,register,getAccessToken,ExtractRegUser,UpdateSession,RestoreSession,logout,ShowCurrentUsers};

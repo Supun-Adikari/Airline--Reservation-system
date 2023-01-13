@@ -20,9 +20,7 @@ const uController = new UserController();
 router.get('/', function (req, res, next) {
       res.render('home');
     });
-
-    
-    
+     
 router.get('/home', async function (req, res, next) {
     res.render('home');
     // await res.render(path.join(__dirname, '../Views/home.ejs'));
@@ -45,9 +43,6 @@ router.get('/contact', function (req, res) {
     res.render('contact');
 });
 
-router.get('/adminLogin',function (req, res, next) {
-        res.render('Admin/AdminLogin');
-    });
 
 router.get('/getReservation',async function(req, res){
 

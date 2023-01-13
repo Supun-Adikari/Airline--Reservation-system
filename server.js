@@ -1,6 +1,7 @@
 const express = require('express')
 var apiController = require("./API/API");
 var authController = require("./API/Auth");
+var adminController = require("./API/AdminAPI");
 var {RestoreSession} = require("./MODEL/Authentication");
 const app = express()
 const dotenv = require('dotenv');
@@ -16,9 +17,9 @@ RestoreSession();
 
 
 app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", `http://localhost:${port}`); 
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-    res.header("Access-Control-Allow-Methods", "DELETE, PUT,GET,POST");
+  res.header("Access-Control-Allow-Origin", `http://localhost:${port}`); 
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+  res.header("Access-Control-Allow-Methods", "DELETE, PUT,GET,POST");
     next();
 });
 
@@ -26,8 +27,7 @@ app.use('/', apiController)
 
 app.use('/api',apiController);
 app.use('/auth',authController);
-
-app.use('/admin',apiController);
+app.use('/admin',adminController);
 // app.use(require('./API'));
 
 

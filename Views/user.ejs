@@ -7,8 +7,7 @@
     <link rel="stylesheet" href="/user.css" />
     <script
       src="https://kit.fontawesome.com/9b207dd34b.js"
-      crossorigin="anonymous"
-    ></script>
+      crossorigin="anonymous"></script>
     <title>Document</title>
   </head>
   <body>
@@ -16,13 +15,11 @@
       B Airline <i class="fa-solid fa-plane"></i>
       <nav>
         <ul>
-          <li><a href="../home">Home</a></li>
-          <li><a href="../contact">Contact Us</a></li>
-          <li><a href="../book">My Account</a></li>
+          <!-- display only logout -->
+          <!-- <li><a href="../home">Home</a></li> -->
+          <!-- <li><a href="../contact">Contact Us</a></li> -->
+          <!-- <li><a href="../book">My Account</a></li> -->
           <li><a class="log" href="/home" id="DeleteButton">Log out</a></li>
-          <!-- <li>
-                  <a class="log" id="logout-link">Log out</a>
-                </li> -->
         </ul>
       </nav>
       <i class="fa-solid fa-bars"></i>
@@ -116,10 +113,19 @@
     const DeleteButton = document.getElementById("DeleteButton");
     DeleteButton.addEventListener("click", async (event) => {
       event.preventDefault();
-      window.location.replace("/home")
+      window.location.replace("/home");
       console.log(typeof token);
       console.log("typeof token eka thyena thana");
       customHeaders(token);
     });
+    // testing files
+    //-----------------------------------------------------------
+    // localStorage.setItem("log_status", "<%= user.token %>");
+    // var log_status = localStorage.getItem("log_status");
+    // console.log("log_status eka thyena thana");
+    // console.log(log_status);
+    // console.log(`<%=user%>`);
+    //-----------------------------------------------------------
+    // We can use the above method to store the token in the local storage without storing it in the local storage.
   </script>
 </html>

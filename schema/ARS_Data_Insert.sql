@@ -194,13 +194,13 @@ INSERT INTO users (id, title, f_name, l_name, DoB, email, country) VALUES
 (3, 'Mrs.', 'test3', 'test3', '2000-01-12', 'test3@mail.com', 'testlanka');
 
 
-CALL new_user_registered("Mr.", 'reg_test', 'reg_test', '2000-01-12', 'regtest@mail.com', 'testlanka', 'testlanka', 'testlanka', 'testlanka');
+-- CALL new_user_registered("Mr.", 'reg_test', 'reg_test', '2000-01-12', 'regtest@mail.com', 'testlanka', 'testlanka', 'testlanka', 'testlanka');
 
 CALL create_new_ticket('F001', 'E', 'S001', 2, 'C' );
 CALL create_new_ticket('F001', 'E', 'S002', 2, 'A' );
 CALL create_new_ticket('F001', 'B', 'S003', 1, 'A' );
 CALL create_new_ticket('F018', 'P', 'S002', 3, 'A' );
-CALL create_new_ticket('F073', 'P', 'S004', 4, 'C' );
+-- CALL create_new_ticket('F073', 'P', 'S004', 4, 'C' );
 
 CALL search_flights('CGK', 'BIA', '2023-01-10', '2023-01-11');
 
@@ -208,7 +208,7 @@ CALL get_passenger_details("F001");
 
 CALL get_passenger_count('2023-01-08', '2023-01-20', 'BIA');
 
-CALL get_no_of_bookings('2023-01-11', '2023-01-13');
+CALL get_no_of_bookings('2023-01-11', '2023-01-15');
 
 CALL get_old_passengers('CGK', 'BIA');
 
