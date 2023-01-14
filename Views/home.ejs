@@ -90,11 +90,11 @@
       <div class="column">
           <div class="input-box">
               <label>DEPARTURE DATE</label>
-              <input class="sec" type="date" name="From_date" required />
+              <input class="sec" type="date" name="From_date" id="dateInput" min="2022-01-01" required />
             </div>
         <div class="input-box">
           <label>DESTINATION DATE</label>
-          <input class="sec" type="date" name="To_date" required />
+          <input class="sec" type="date" name="To_date" id="dateInput1" min="2022-01-01" required />
         </div>
       </div>
       <LAbel></LAbel>
@@ -305,6 +305,16 @@
         }
     }
 </script>
+<!-- add method to only can add feuther dates -->
+<script>
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, '0');
+  var mm = String(today.getMonth() + 1).padStart(2, '0'); 
+  var yyyy = today.getFullYear();
 
+  today = yyyy + '-' + mm + '-' + dd;
+  document.getElementById("dateInput").min = today;
+  document.getElementById("dateInput1").min = today;
+</script>
 </body>
 </html>

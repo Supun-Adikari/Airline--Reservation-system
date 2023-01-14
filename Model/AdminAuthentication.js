@@ -109,15 +109,23 @@ async function getBookingsByType(queries){
 
 
 //Report 04
-async function getOldPassengers(method){
-    const body = method.getBody();
+async function getOldflights(queries){
 
-    console.log(body);
-    
-    const origin = body.origin;
-    const destination = body.destination;
+    console.log(queries);
+    try{
+    const origin = queries.Dep_city;
+    const destination = queries.Dest_city;
 
-    return await executeSQL('CALL get_old_passengers(?, ?)', [origin, destination]);
+    const [oldFlight] = await executeSQL('CALL get_old_passengers(?, ?)', [origin, destination]);
+    console.log(oldFlight);
+    console.log("Above is oldFlight");
+
+    return oldFlight;
+    }
+    catch(e){
+        console.log(e);
+        return [[0]];
+    }
 }
 
 
@@ -127,4 +135,4 @@ async function getRevenue(){
 }
 
 
-module.exports= {adminLogin, getRevenue, getPassengerDetails, getNoBookings_Daterange,getBookingsByType,getOldPassengers};
+module.exports= {adminLogin, getRevenue, getPassengerDetails, getNoBookings_Daterange,getBookingsByType,getOldflights};

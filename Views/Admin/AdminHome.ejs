@@ -242,55 +242,58 @@
       </form>
     </div>
     <div class="c">
-      <h2><u>Given Origin and Destination, All Past Flights & Passenger Counts Data</u></h2>
+      <h2>
+        <u
+          >Given Origin and Destination, All Past Flights & Passenger Counts
+          Data</u
+        >
+      </h2>
       <br />
       <!-- make dashbord -->
       <form id="">
-        <label>ORIGIN:
-        <select id="city1">
-          <option hidden>C I T Y</option>
-          <option value="CGK">CGK(Jakarta)</option>
-          <option value="DPS">DPS(Denpasar)</option>
-          <option value="BIA">BIA(Colombo)</option>
-          <option value="HRI">HRI(Hambantota)</option>
-          <option value="DEL">DEL(Delhi)</option>
-          <option value="BOM">BOM(Mumbai)</option>
-          <option value="MAA">MAA(Chennai)</option>
-          <option value="BKK">BKK(Bangkok)</option>
-          <option value="DMK">DMK(Don Mueang)</option>
-          <option value="SIN">SIN(Singapore)</option>
-          <option value="JFK">JFK(New York City)</option>
-        </select>
-        DESTINATION:
-        <select id="city1" required>
-          <option hidden>C I T Y</option>
-          <option value="CGK">CGK(Jakarta)</option>
-          <option value="DPS">DPS(Denpasar)</option>
-          <option value="BIA">BIA(Colombo)</option>
-          <option value="HRI">HRI(Hambantota)</option>
-          <option value="DEL">DEL(Delhi)</option>
-          <option value="BOM">BOM(Mumbai)</option>
-          <option value="MAA">MAA(Chennai)</option>
-          <option value="BKK">BKK(Bangkok)</option>
-          <option value="DMK">DMK(Don Mueang)</option>
-          <option value="SIN">SIN(Singapore)</option>
-          <option value="JFK">JFK(New York City)</option>
-        </select>
-        <button class="new-btn" type="submit" id="btn1">Submit</button>
-      </label>
-        <table>
-          <tr>
-            <th>Flight ID</th>
-            <th>Number Of Passengers</th>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-          </tr>
+        <label
+          >ORIGIN:
+          <select id="Dep_city3">
+            <option hidden>C I T Y</option>
+            <option value="CGK">CGK(Jakarta)</option>
+            <option value="DPS">DPS(Denpasar)</option>
+            <option value="BIA">BIA(Colombo)</option>
+            <option value="HRI">HRI(Hambantota)</option>
+            <option value="DEL">DEL(Delhi)</option>
+            <option value="BOM">BOM(Mumbai)</option>
+            <option value="MAA">MAA(Chennai)</option>
+            <option value="BKK">BKK(Bangkok)</option>
+            <option value="DMK">DMK(Don Mueang)</option>
+            <option value="SIN">SIN(Singapore)</option>
+            <option value="JFK">JFK(New York City)</option>
+          </select>
+          DESTINATION:
+          <select id="Dest_city3" required>
+            <option hidden>C I T Y</option>
+            <option value="CGK">CGK(Jakarta)</option>
+            <option value="DPS">DPS(Denpasar)</option>
+            <option value="BIA">BIA(Colombo)</option>
+            <option value="HRI">HRI(Hambantota)</option>
+            <option value="DEL">DEL(Delhi)</option>
+            <option value="BOM">BOM(Mumbai)</option>
+            <option value="MAA">MAA(Chennai)</option>
+            <option value="BKK">BKK(Bangkok)</option>
+            <option value="DMK">DMK(Don Mueang)</option>
+            <option value="SIN">SIN(Singapore)</option>
+            <option value="JFK">JFK(New York City)</option>
+          </select>
+          <button class="new-btn" type="submit" id="btn3">Submit</button>
+        </label>
+        <table id="oldFlightRows">
+          <thead>
+            <tr>
+              <th>flight_id</th>
+              <th>passengers_travelled</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr id="oldFlightRows"></tr>
+          </tbody>
         </table>
       </form>
     </div>
@@ -325,7 +328,6 @@
         <input class="btn" type="submit" value="Add Flight" />
       </form>
     </div> -->
-
   </body>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
   <script>
@@ -361,12 +363,33 @@
       document.getElementById("Guest_id").innerHTML = "" + value2;
     }
 
+    function displayText_report4(value) {
+      if (!Array.isArray(value)) return;
+      let rows = "";
+      value.forEach((oldFlight) => {
+        rows += `<tr><td>${oldFlight.flight_id}</td><td>${oldFlight.passengers_travelled}</td></tr>`;
+      });
+      document
+        .getElementById("oldFlightRows")
+        .querySelector("tbody").innerHTML = rows;
+    }
+
     function getBookingsByType(submitDetails) {
       axios
         .get("/admin/getBookingsByType", { params: submitDetails })
         .then((res) => {
           console.log(res);
           displayText_report3(res.data.R, res.data.G);
+        })
+        .catch((err) => console.error(err));
+    }
+
+    function getOldflights(submitDetails) {
+      axios
+        .get("/admin/getOldflights", { params: submitDetails })
+        .then((res) => {
+          console.log(res);
+          displayText_report4(res.data);
         })
         .catch((err) => console.error(err));
     }
@@ -379,6 +402,20 @@
     const startdate2 = document.getElementById("start_date2");
     const enddate2 = document.getElementById("end_date2");
     const btn2 = document.getElementById("btn2");
+
+    const Dep_city = document.getElementById("Dep_city3");
+    const Dest_city = document.getElementById("Dest_city3");
+    const btn3 = document.getElementById("btn3");
+    const oldFlightRows = document.getElementById("oldFlightRows");
+
+    btn3.addEventListener("click", (event) => {
+      event.preventDefault();
+      const submitDetails = {
+        Dep_city: Dep_city.value,
+        Dest_city: Dest_city.value,
+      };
+      getOldflights(submitDetails);
+    });
 
     // console.log(submitDetails);
     // console.log("submitDetails thyena thana");
