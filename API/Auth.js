@@ -33,8 +33,17 @@ router.post('/register',async function(req, res){
     var method = new Method(req,res);
     
     const status = await register(method);
-    
-    res.status(ResponseHandler(status)).send(status);
+
+    if (ResponseHandler(status) == 200){
+        console.log("register success");
+        // req.session.message = "Registration Success";
+        res.redirect(200,'../login');
+    }
+    else{
+        console.log("register failed");
+        // req.session.message="Registration Failed 💩";
+        res.redirect(ResponseHandler(status),'../login');
+    }
 
 });
 

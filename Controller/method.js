@@ -41,6 +41,10 @@ class Method{
         return(this.req.body)
     }
 
+    getQuery(){
+        return(this.req.query);
+    }   
+
 }
 
 

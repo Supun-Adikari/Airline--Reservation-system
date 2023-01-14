@@ -3,7 +3,7 @@ var router = express.Router();
 
 const Method = require("../Controller/method");
 
-const {getRevenue,getNoBookings_Daterange,getPassengerDetails,getBookingsByType} = require("../Model/AdminAuthentication");
+const {getRevenue,getNoBookings_Daterange,getPassengerDetails,getBookingsByType,getOldPassengers} = require("../Model/AdminAuthentication");
 const { application } = require('express');
 
 
@@ -53,6 +53,10 @@ router.get('/getBookingsByType', async function(req,res,next){
     console.log(value);
     // console.log("Methanata awa");
     res.send(value);
+});
+
+router.get('/getOldPassengers', async function(req,res,next){
+    
 });
 
 

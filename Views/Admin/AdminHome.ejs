@@ -241,8 +241,60 @@
         </table>
       </form>
     </div>
-
     <div class="c">
+      <h2><u>Given Origin and Destination, All Past Flights & Passenger Counts Data</u></h2>
+      <br />
+      <!-- make dashbord -->
+      <form id="">
+        <label>ORIGIN:
+        <select id="city1">
+          <option hidden>C I T Y</option>
+          <option value="CGK">CGK(Jakarta)</option>
+          <option value="DPS">DPS(Denpasar)</option>
+          <option value="BIA">BIA(Colombo)</option>
+          <option value="HRI">HRI(Hambantota)</option>
+          <option value="DEL">DEL(Delhi)</option>
+          <option value="BOM">BOM(Mumbai)</option>
+          <option value="MAA">MAA(Chennai)</option>
+          <option value="BKK">BKK(Bangkok)</option>
+          <option value="DMK">DMK(Don Mueang)</option>
+          <option value="SIN">SIN(Singapore)</option>
+          <option value="JFK">JFK(New York City)</option>
+        </select>
+        DESTINATION:
+        <select id="city1" required>
+          <option hidden>C I T Y</option>
+          <option value="CGK">CGK(Jakarta)</option>
+          <option value="DPS">DPS(Denpasar)</option>
+          <option value="BIA">BIA(Colombo)</option>
+          <option value="HRI">HRI(Hambantota)</option>
+          <option value="DEL">DEL(Delhi)</option>
+          <option value="BOM">BOM(Mumbai)</option>
+          <option value="MAA">MAA(Chennai)</option>
+          <option value="BKK">BKK(Bangkok)</option>
+          <option value="DMK">DMK(Don Mueang)</option>
+          <option value="SIN">SIN(Singapore)</option>
+          <option value="JFK">JFK(New York City)</option>
+        </select>
+        <button class="new-btn" type="submit" id="btn1">Submit</button>
+      </label>
+        <table>
+          <tr>
+            <th>Flight ID</th>
+            <th>Number Of Passengers</th>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+          </tr>
+        </table>
+      </form>
+    </div>
+    <!-- <div class="c">
       <h1><u>Add New Flight</u></h1>
       <form id="add-flight-form">
         <label for="flight-number">Flight Number:</label><br />
@@ -268,12 +320,12 @@
         /><br />
         <label for="departure-time">Departure Time:</label><br />
         <input type="time" id="appt" name="appt" /><br />
-        <!-- <input type="text" id="departure-time" name="departure-time"><br> -->
         <label for="arrival-time">Arrival Time:</label><br />
         <input type="text" id="arrival-time" name="arrival-time" /><br /><br />
         <input class="btn" type="submit" value="Add Flight" />
       </form>
-    </div>
+    </div> -->
+
   </body>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
   <script>

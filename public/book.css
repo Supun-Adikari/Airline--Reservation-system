@@ -3,9 +3,7 @@
     font-family: 'josefin sans', sans-serif;
 }
 body{
-    background-image: url("travel-wallpaper-collage-desktop-background-for-free-hd-1920x1080-2e4i57dmv8jejhd1.jpg");
-    background-size: cover;
-    /* min-height: 200vh; */
+    background-image: url("backgroundbooking.jpg");
     position: relative;
     background-size: cover;
     background-repeat: no-repeat;
@@ -102,17 +100,29 @@ a:hover{
 }  
 
 table {
-    margin: 20px;
-    margin-right: 10%;
-  font-family: arial, sans-serif;
-  width: 100%;
-  border-collapse: collapse;
-  float: center;
+    margin-top: 150px;
+    position: relative;
+    font-family: arial, sans-serif;
+    width: 100%;
+    border-collapse: collapse;
+}
+th{
+    background-color: #2f29cc;
+    color: white;
+    font-size: 15px;
+    text-transform: uppercase;
+}
+.book-button i{
+    color:white;
 }
 th, td {
   border: 3px solid #000000;
   text-align: center;
   padding: 8px;
+}
+td{
+    font-size: 15px;
+    font-weight: bold;
 }
 .cha-topic {
   background-color: #4c51af;
@@ -121,17 +131,22 @@ th, td {
   font-size: 20px;
 }
 tr:nth-child(even) {
-  background-color: #73baf58f;
-  text-align: center;
+    background-color: rgba(255, 255, 255, 0.75);
+    text-align: center;
 }
+tr:nth-child(odd) {
+    background-color: rgba(255, 255, 255, 0.95);
+    text-align: center;
+  }
 .book-button {
   background-color: #4CAF50;
   border: none;
-  color: white;
+  color: black;
   padding: 8px 16px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
+  font-weight: bold;
   font-size: 16px;
   margin: 4px 2px;
   cursor: pointer;
@@ -139,5 +154,11 @@ tr:nth-child(even) {
 .book-button:hover {
   background-color: #4c51af;
   color: white;
+}
+@media(max-width: 650px){
+    table{
+        width: 100%;
+    }
+    
 }
 

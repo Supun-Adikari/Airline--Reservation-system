@@ -176,12 +176,19 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE new_user_registered(title VARCHAR(4), f_name VARCHAR(30), l_name VARCHAR(30), DoB DATE, email VARCHAR(30), country VARCHAR(30), username VARCHAR(30), password_ VARCHAR(100), address_ VARCHAR(100))
 BEGIN
-	DECLARE last_id INT DEFAULT 0;
-	START TRANSACTION;
-	INSERT INTO users(title, f_name, l_name, DoB, email, country, user_category) VALUES (title, f_name, l_name, DoB, email, country, 'R');
-	SET last_id = LAST_INSERT_ID();
-	INSERT INTO registered_users(id, username, password_, address_) VALUES (last_id, username, password_, address_);
-	COMMIT;
+    DECLARE last_id INT DEFAULT 0;
+    DECLARE err_code INT;
+    START TRANSACTION;
+    SAVEPOINT sp1;
+    INSERT INTO users(title, f_name, l_name, DoB, email, country, user_category) VALUES (title, f_name, l_name, DoB, email, country, 'R');
+    SET last_id = LAST_INSERT_ID();
+    INSERT INTO registered_users(id, username, password_, address_) VALUES (last_id, username, password_, address_);
+    SET err_code = ROW_COUNT();
+    IF err_code = 0 THEN
+        ROLLBACK TO sp1;
+    ELSE
+        COMMIT;
+    END IF;
 END//
 DELIMITER ;
 

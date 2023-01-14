@@ -10,22 +10,3 @@ function ResponseHandler(status){
 
 module.exports =  {ResponseHandler};
 
-
-
-
-// async function customHeaders(token) {
-//     const config = {
-//       headers: {
-//         'Content-Type': 'application/json',
-//         Authorization: token
-//       }
-//     };
-  
-//     await axios
-//       .get(
-//         "/registered",
-//         config
-//       )
-//       .then(res => showOutput(res))
-//       .catch(err => console.error(err));
-//   }

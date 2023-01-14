@@ -6,12 +6,20 @@ var {RestoreSession} = require("./MODEL/Authentication");
 const app = express()
 const dotenv = require('dotenv');
 const axios = require('axios');
+const session = require('express-session');
+
 dotenv.config();
 
 const port = process.env.port 
 
 app.use(express.urlencoded({extended: true}));
 app.use(express.json())
+app.use(session({
+  secret: 'Group 21 Project',
+  resave: false,
+  saveUninitialized: true
+}));
+
 
 RestoreSession();
 

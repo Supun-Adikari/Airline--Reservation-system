@@ -1,4 +1,5 @@
 var express = require('express');
+const alert = require('alert');
 
 const router = express.Router();
 var regApiController = require("./RegAPI");
@@ -43,6 +44,9 @@ router.get('/contact', function (req, res) {
     res.render('contact');
 });
 
+router.get('/guest_ticket', function (req, res) {
+    res.render('gest_tikets');
+});
 
 router.get('/getReservation',async function(req, res){
 
@@ -60,13 +64,33 @@ router.get('/getReservation',async function(req, res){
 router.get('/getFlights',async function(req, res){
 
     const method = new Method(req,res);
+    // console.log(req.query);
     
-    const status = await uController.getFlights(method);
-    console.log(status);
+    const data = await uController.getFlights(method);
+    // console.log(data);
     
-    res.status(ResponseHandler(status)).send(status);
+    res.render('book',{data:data});
 
 });
+
+router.post('/addUserandBookTicket', async function(req,res){
+    const method = new Method(req,res);
+    console.log(method.getBody());
+    console.log("req eka waduna");
+
+    const status = await uController.addUserandBookTicket(method);
+    if (ResponseHandler(status) == 200){
+        console.log("booking success");
+        alert("Flight booked successfully");
+        res.redirect(200,'../home');
+    }
+    else{
+        console.log("booking fail");
+        alert("Flight booking failed");
+        res.redirect(404,'../gest_tikets');
+    }
+ 
+})
 
 /* Request No: 02 
 Description: Given a flight no, all passengers travelling in it (next immediate flight) below age 18, above age 18
@@ -123,6 +147,8 @@ router.get('/AvailableSeats',async function(req, res){
 router.get('/BookFlight',async function(req, res){
 
     var method = new Method(req,res);
+    console.log(req.query);
+    console.log("flight id eke req.query eka thyena thana");
     
     const status = await uController.getBookFlight(method,req.user);
     console.log(status);

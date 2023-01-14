@@ -14,42 +14,14 @@ class UserControl{
     /////////////////////////// GET ///////////////////////////	
     async getFlights(method){
         try{
-            const body = method.getBody();
+            const body = method.getQuery();
+            // console.log(body);
             const From = body.Dep_Country;
             const To = body.Dest_Country;
             const From_Date = body.From_date;
             const To_Date = body.To_date;
             
-            const data = await executeSQL(
-
-            `Select Date_of_travel, Dep_time, Arr_time, Tickets_Remaining_First_Class, Tickets_Remaining_Business_Class, Tickets_Remaining_Economy_Class
-             From Flights 
-             where Route = (
-                 Select Route_ID 
-                 From Routes 
-                 Where Origin_ID = '${From}' AND Destination_ID = '${To}' AND (Date_of_travel BETWEEN '${From_Date}' AND '${To_Date}')
-                 order by Date_of_travel
-                 );`
-                
-            );
-            return(data);
-        }catch(err){
-            return err;
-        }
-    }
-
-    async getRevenueByAircraftType(method){
-        try{
-            const body = method.getBody();
-
-            const From = body.From;
-            const To = body.To;
-            const From_Date = body.From_Date;
-            const To_Date = body.To_Date;
-            
-            const sqlQuary = ``;
-
-            const data = await executeSQL(sqlQuary);
+            const [data] = await executeSQL('CALL search_flights(?, ?, ?, ?)', [From, To, From_Date, To_Date]);
             return(data);
         }catch(err){
             return err;
@@ -77,13 +49,8 @@ class UserControl{
 
     async getBookFlight(method){
         try{
-            const body = method.getBody();
-
-            const From = body.From;
-            const To = body.To;
-            const From_Date = body.From_Date;
-            const To_Date = body.To_Date;
-            
+            const body = method.getQuery();
+            console.log(body);
             const sqlQuary = ``;
 
             const data = await executeSQL(sqlQuary);
@@ -177,6 +144,45 @@ class UserControl{
     }
 
     /////////////////////////////////// POST ///////////////////////////////////////////////////
+    async addUserandBookTicket(method){
+        try{
+            const body = method.getBody();
+
+            console.log(body);
+
+            const title = body.title;
+            const first_name = body.fname;
+            const last_name = body.lname;
+            const email = body.email;
+            const DoB = body.DoB;
+            const country = body.Country;
+            const AorC = body.AorC;
+            const seat_class = body.flightClass;
+            const seatID = body.SeatID;
+            const flightID = body.flightID;
+
+            await executeSQL('INSERT INTO users (title, f_name, l_name, DoB, email, country) VALUES (?, ?, ?, ?, ?, ?)', [title, first_name, last_name, DoB, email, country]);
+            const [data] = await executeSQL('SELECT id FROM users WHERE (title = ? AND f_name = ? AND l_name = ? AND DoB = ? AND email = ? AND country = ? AND user_category = ?) LIMIT 1',[title , first_name, last_name, DoB, email, country, 'G']);
+            console.log(data);
+            console.log("user added");
+            await executeSQL('CALL create_new_ticket(?, ?, ?, ?, ?)', [ flightID, seat_class, seatID, data.id, AorC]);
+            console.log("New Ticket created.");
+            return data;
+        }catch(err){
+            console.error(err);
+            return "Error";
+        }
+    }   
+
+
+    
+    
+    
+    
+    
+    
+    
+    
     async postCancelBooking(method){
         try{
             const body = method.getBody();
